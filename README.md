@@ -18,3 +18,19 @@ Yeah, eventually!
 
 ## Authors
 **Michelle Chernick** - it me, pushing directly to main
+
+# Installation
+If you want to use `astrochelle` as a package, follow the instructions below. 
+Note: `astrochelle` was developed using Python 3.6. I have not (yet) tested it in other releases.
+
+## Mac
+1. Run 
+```
+pip3 install -e .
+```
+from the root directory.
+
+2. Install the requirements via the command
+```
+pip3 install -r requirements.txt
+```
