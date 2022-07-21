@@ -34,3 +34,24 @@ from the root directory.
 ```
 pip3 install -r requirements.txt
 ```
+
+# Repo Structure
+The `astrochelle` repo is organized into the following folders:
+
+## astrochelle
+Dis dat main shit.
+
+### control
+TODO fill in later
+### dynamics
+TODO fill in later
+### utils
+TODO fill in later
+#### data_models
+TODO fill in later
+
+## examples
+The `examples` folder contains more detailed examples demonstrating code usage. TODO details on running examples
+
+## test
+The `test` folder contains unit tests. TODO details on running unit tests, details on pipeline
