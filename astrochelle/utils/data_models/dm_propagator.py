@@ -7,9 +7,12 @@
 # ------------------------------------------------------------------------------
 
 # Python imports
+from pydantic import BaseModel, Field
 
 # Astrochelle imports
 
 #####################
 # PROPAGATOR CONFIG #
 #####################
+class PropagatorConfig(BaseModel):
+	id: int = Field(0, description = "hello")
