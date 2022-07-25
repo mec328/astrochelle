@@ -16,3 +16,6 @@ from pydantic import BaseModel, Field
 #####################
 class PropagatorConfig(BaseModel):
 	id: int = Field(0, description = "hello")
+
+class PropagatorState(BaseModel):
+	id: int = Field(0, description = "hello")
