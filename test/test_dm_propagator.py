@@ -7,6 +7,7 @@ import pytest
 # Astrochelle imports
 from astrochelle.utils.data_models.dm_propagator import *
 
+# TODO add the rest of the propagator characteristics (RK4, RK78 etc from Table 6.5 in my thesis)
 def test_gve_propagator_config_pass():
     # Defaults
     timestep = 10 # 10 seconds
