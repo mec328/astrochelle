@@ -54,7 +54,7 @@ TODO fill in later
 - math
 - etc
 #### data_models
-This folder contains configuration and state files for use within the module. For example, the propagator classes in `dynamics/propagation` are initialized with the `PropagatorConfig` and `PropagatorState` data models. (Why data models? Because they can inherently include validators to ensure that the user isn't setting trash variables.)
+This folder contains configuration and state files for use within the module. For example, the propagator classes in `dynamics/propagation` are initialized with the `GVEPropagatorConfig` data model. (Why data models? Because they can inherently include validators to ensure that the user isn't setting trash variables.)
 
 ## examples
 The `examples` folder contains more detailed examples demonstrating code usage. TODO details on running examples
