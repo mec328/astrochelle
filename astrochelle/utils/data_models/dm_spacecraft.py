@@ -26,4 +26,5 @@ class SpacecraftConfig(BaseModel):
     @classmethod
     def fields_nonnegative(cls, field_val, values, field, config):
         if field_val < 0:
-            raise ValueError('Ma''am, fields must be non-negative.')
+            raise ValueError(f"Ma''am, {field.name} must be non-negative.")
+    # TODO need more validators
