@@ -2,7 +2,7 @@
 # ------------------------------------------------------------------------------
 
 # Python imports
-import pytest
+import pytest 
 
 # Astrochelle imports
 from astrochelle.utils.data_models.dm_propagator import *
