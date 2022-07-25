@@ -21,7 +21,7 @@ Yeah, eventually!
 
 # Installation
 If you want to use `astrochelle` as a package, follow the instructions below. 
-Note: `astrochelle` was developed using Python 3.6. I have not (yet) tested it in other releases.
+Note: `astrochelle` was developed using Python 3.6, but the pipeline tests it from 3.6 to 3.10.
 
 ## Mac
 1. Run 
@@ -45,10 +45,16 @@ Dis dat main shit.
 TODO fill in later
 ### dynamics
 TODO fill in later
+- propagation
+- etc
 ### utils
 TODO fill in later
+- absolute state
+- relative state
+- math
+- etc
 #### data_models
-TODO fill in later
+This folder contains configuration and state files for use within the module. For example, the propagator classes in `dynamics/propagation` are initialized with the `GVEPropagatorConfig` data model. (Why data models? Because they can inherently include validators to ensure that the user isn't setting trash variables.)
 
 ## examples
 The `examples` folder contains more detailed examples demonstrating code usage. TODO details on running examples
