@@ -22,8 +22,8 @@ class GVEPropagatorConfig(BaseModel):
     model_atmospheric_drag: str = Field('nrlmsise00', description = "drag model to use")
 
     @validator('gravity_order')
-    def gravity_order_must_be_less_than_degree(cls, order):
-        if order > cls.gravity_degree:
+    def gravity_order_must_be_less_than_degree(cls, order, values, field, config):
+        if order > values['gravity_degree']:
             raise ValueError('Gravity order cannot be greater than degree.')
         return order
 
