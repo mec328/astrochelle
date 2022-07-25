@@ -1,4 +1,4 @@
-# test_dm_propagator
+# test_dm_spacecraft
 # ------------------------------------------------------------------------------
 
 # Python imports
