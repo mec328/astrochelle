@@ -28,23 +28,35 @@ def test_spacecraft_config_pass():
         assert False
 
 def test_spacecraft_config_fail():
-    # Defaults
-    mass = 100
-    drag_coef = 1 
-    srp_coef = 1
-    drag_area = 1
-    srp_area = 1
-
     # TODO needs a loop
-
     # Negative mass should raise exception
     with pytest.raises(Exception):
         spacecraft_config = SpacecraftConfig(
-            mass = -100,
-            coefficient_drag = drag_coef,
-            coefficient_srp = srp_coef,
-            effective_area_drag = drag_area,
-            effective_area_srp = srp_area
+            mass = -100
+            )
+
+    # Negative drag coefficient should raise exception
+    with pytest.raises(Exception):
+        spacecraft_config = SpacecraftConfig(
+            coefficient_drag = -1
+            )
+
+    # Negative srp coefficient should raise exception
+    with pytest.raises(Exception):
+        spacecraft_config = SpacecraftConfig(
+            coefficient_srp = -1
+            )
+
+    # Negative drag area should raise exception
+    with pytest.raises(Exception):
+        spacecraft_config = SpacecraftConfig(
+            effective_area_drag = -1
+            )
+
+    # Negative drag area should raise exception
+    with pytest.raises(Exception):
+        spacecraft_config = SpacecraftConfig(
+            effective_area_srp = -1
             )
 
 

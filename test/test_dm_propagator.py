@@ -16,12 +16,12 @@ def test_gve_propagator_config_fail():
     timestep = 10 # 10 seconds
     gravity_degree = 60
     gravity_order = 60
+    flag_atmospheric_drag = True
+    model_atmospheric_drag = 'nrlmsise00'
 
     # Order greater than degree
     with pytest.raises(Exception):
         propagator_config = GVEPropagatorConfig(
-            timestep = timestep,
-            gravity_degree = gravity_degree,
             gravity_order = 70
             )
 
