@@ -20,6 +20,8 @@ class GVEPropagatorConfig(BaseModel):
     gravity_order: int = Field(60, description = "spherical harmonic order")
     flag_atmospheric_drag: bool = Field(True, description = "flag to include drag")
     model_atmospheric_drag: str = Field('nrlmsise00', description = "drag model to use")
+    flag_solar_radiation_pressure: bool = Field(True, description = "flag to include SRP")
+    model_solar_radiation_pressure: str = Field('flat_plate', description = "SRP model to use")
 
     @validator('gravity_order')
     def gravity_order_must_be_less_than_degree(cls, order, values, field, config):
@@ -28,6 +30,11 @@ class GVEPropagatorConfig(BaseModel):
         return order
 
     @validator('model_atmospheric_drag')
-    def model_must_exist(cls, model, values, field, config):
+    def model_must_exist_drag(cls, model, values, field, config):
         if not model in ['nrlmsise00']: # TODO might add harrispriester but it sux so probs not
+            raise ValueError(f"Model {model} is not valid for {field.name}.")
+
+    @validator('model_solar_radiation_pressure')
+    def model_must_exist_srp(cls, model, values, field, config):
+        if not model in ['flat_plate', 'conical']:
             raise ValueError(f"Model {model} is not valid for {field.name}.")
