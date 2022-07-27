@@ -13,6 +13,7 @@
 
 # Python imports
 import numpy as np
+from math import floor
 
 # Astrochelle imports
 
@@ -113,7 +114,7 @@ class Epoch():
         self.minutes = minutes
         self.seconds = seconds
 
-    def to_jd():
+    def to_jd(self):
         '''Convert UTC time (saved) to Julian Date (JD)
 
         Args:
@@ -124,11 +125,17 @@ class Epoch():
 
         Returns:
             JD (`float`)
+
+        Notes:
+            Algorithm 2 on page 68 in Ref. [1]
         '''
 
-        return True
+        return 367*self.year - floor(
+            (7*(self.year + floor((self.month + 9)/12)))/4) + floor(
+            275*self.month/9) + self.day + 1721013.5 + (
+            (self.seconds/60 + self.minutes)/60 + self.hours)/24
 
-    def to_mjd():
+    def to_mjd(self):
         '''Convert UTC time (saved) to Mean Julian Date (MJD)
 
         Args:
