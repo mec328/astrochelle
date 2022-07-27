@@ -156,6 +156,10 @@ def check_validity_date(
     if day < 0 or day > days_in_month:
         return False, f"Provided day {day} not in month {month}."
 
+    # Check that minutes and hours are non-negative
+    if hours < 0 or minutes < 0:
+        return False, f"Provided hours or minutes negative."
+
     # Check that minutes, seconds, nanoseconds are valid and scale them
     # (TODO probs more functions)
     # if seconds nano seconds provided
