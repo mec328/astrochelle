@@ -61,9 +61,9 @@ class Epoch():
         Args: 
             time_system (`str`): time system representation to initialize in ('UTC')
             ---only some args below defined based on input type---
-            year (`int`): TODO
-            month (`int`): TODO
-            day (`int`): TODO
+            year (`int`): calendar year
+            month (`int`): calendar month as integer [1,12]
+            day (`int`): calendar day
             hours (`int`): TODO
             minutes (`int`): TODO
             seconds (`int`): TODO
@@ -71,9 +71,9 @@ class Epoch():
 
         Attributes:
             time_system (`str`): time system representation to initialize in ('UTC')
-            year (`int`): TODO
-            month (`int`): TODO
-            day (`int`): TODO
+            year (`int`): calendar year
+            month (`int`): calendar month as integer [1,12]
+            day (`int`): calendar day
             hours (`int`): TODO
             minutes (`int`): TODO
             seconds (`int`): TODO
@@ -116,9 +116,9 @@ def check_validity_date(
     '''Check that the inputted date vector makes sense
 
     Args:
-        year (`int`): TODO
-        month (`int`): TODO
-        day (`int`): TODO
+        year (`int`): calendar year
+        month (`int`): calendar month as integer [1,12]
+        day (`int`): calendar day
         hours (`int`): TODO
         minutes (`int`): TODO
         seconds (`int`): TODO
@@ -155,7 +155,7 @@ def check_leap_year(year: int)->bool:
     '''Check if it's a leap year
 
     Args:
-        year (`int`): TODO
+        year (`int`): calendar year
 
     Returns:
         True if leap year, False else
