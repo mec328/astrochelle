@@ -21,7 +21,9 @@ class GVEPropagator():
         Keplerian orbital elements
 
         Args:
-
+            TODO
         Attributes:
-            
+            TODO
         '''
+        
+        # probs just its config data model and then propagation methods themselves
