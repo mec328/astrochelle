@@ -95,6 +95,10 @@ class Epoch():
             raise EpochException(
                 msg="If providing ymdhms, must provide ALL components.")
 
+        # If seconds weren't provided, set to zero
+        if seconds is None:
+            seconds = 0
+
         # TODO not sure if converting everything to this first before check
         flag_valid, msg = check_validity_date(
             year=year, month=month, day=day, hours=hours,

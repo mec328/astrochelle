@@ -1,4 +1,7 @@
 # test_epoch
+#
+# References:
+#   [1] JD Date/Time Converter. https://ssd.jpl.nasa.gov/tools/jdc/#/cd
 # ------------------------------------------------------------------------------
 
 # Python imports
@@ -119,3 +122,16 @@ def test_check_leap_year():
 
     # Is divisible by 4 but also by 100 and not by 400, not leap year
     assert not check_leap_year(year=1900)
+
+
+def test_to_jd():
+    # Comparing this algo to JPL's algorithm at Ref. 1.
+    epoch = Epoch(
+        year=2000,
+        month=1,
+        day=1,
+        hours=12,
+        minutes=0,
+        seconds=0)
+
+    assert abs(epoch.to_jd() - 2451545.0000000) < 1e-8
