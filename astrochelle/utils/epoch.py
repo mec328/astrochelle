@@ -7,6 +7,8 @@
 # REFERENCES:
 #   [1] Vallado, David A. Fundamentals of astrodynamics and applications. 
 #       First edition.
+#   [2] Eugene Yarmash. "How to determine whether a year is a leap year?". 
+#       https://stackoverflow.com/q/11621740
 # ------------------------------------------------------------------------------
 
 # Python imports
@@ -17,6 +19,11 @@ import numpy as np
 # Constants
 ALLOWED_TIME_SYSTEMS = ['UTC']
 YYYY_MIN = -4713 # 4713 BC from Ref. 1, page 67
+DAYS_IN_MONTH = {
+    1: 31, 2: 28, 3: 31, 4: 30,
+    5: 31, 6: 30, 7: 31, 8: 31,
+    9: 30, 10: 31, 11: 30, 12: 31
+} # Definitely had to do the song to get these
 
 ##################
 # Error Handling #
@@ -126,5 +133,39 @@ def check_validity_date(
     if year < YYYY_MIN:
         return False, f"Provided year {year} is less than {YYYY_MIN}."
 
+    # Check that month is real
+    if month < 1 or month > 12:
+        return False, f"Provided month {month} is outside of the range [1,12]."
+
+    # Check that day is valid given month
+    days_in_month = DAYS_IN_MONTH[month]
+    if month == 2 and check_leap_year(year = year):
+        # It's a leap year, add one day to February
+        days_in_month += 1
+
+    if day < 0 or day > days_in_month:
+        return False, f"Provided day {day} is not in month {month}. Must be in range [1, {days_in_month}]"
+
+    # Check that minutes, seconds, nanoseconds are valid and scale them (TODO probs more functions)
+    # if seconds nano seconds provided
 
     return True, ""
+
+def check_leap_year(year: int)->bool:
+    '''Check if it's a leap year
+
+    Args:
+        year (`int`): TODO
+
+    Returns:
+        True if leap year, False else
+
+    Notes:
+        from Ref. [2]
+    '''
+    if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
+        # it's a leap year!
+        return True
+
+    return False
+
