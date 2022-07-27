@@ -60,7 +60,7 @@ class Epoch():
     ):
         '''Time-keeping class
 
-        Args: 
+        Args:
             time_system (`str`): time system representation to initialize in
                 see ALLOWED_TIME_SYSTEMS in `Constants` section
             ---only some args below defined based on input type---
@@ -103,9 +103,45 @@ class Epoch():
         if not flag_valid:
             assert EpochException(msg)
 
-        # right now i realllllly don't care if this covers everything...
-        # i just want a simple representation of the epoch and associated
-        # overwritten math funcs
+        # TODO more stuff
+
+        # Looks good! Save things
+        self.year = year
+        self.month = month
+        self.day = day
+        self.hours = hours
+        self.minutes = minutes
+        self.seconds = seconds
+
+    def to_jd():
+        '''Convert UTC time (saved) to Julian Date (JD)
+
+        Args:
+            None
+
+        Modifies:
+            None (TODO? mb i want this to be an attribute)
+
+        Returns:
+            JD (`float`)
+        '''
+
+        return True
+
+    def to_mjd():
+        '''Convert UTC time (saved) to Mean Julian Date (MJD)
+
+        Args:
+            None
+
+        Modifies:
+            None (TODO? mb i want this to be an attribute)
+
+        Returns:
+            MJD (`float`)
+        '''
+
+        return True
 
 ########################
 # Supporting Functions #
@@ -122,17 +158,17 @@ def check_validity_date(
     '''Check that the inputted date vector makes sense
 
     Args:
-        year (`int`): calendar year
-        month (`int`): calendar month as integer [1,12]
-        day (`int`): calendar day
-        hours (`int`): TODO
-        minutes (`int`): TODO
-        seconds (`int`): TODO   
+        year(`int`): calendar year
+        month(`int`): calendar month as integer[1, 12]
+        day(`int`): calendar day
+        hours(`int`): TODO
+        minutes(`int`): TODO
+        seconds(`float`): TODO
 
     Returns:
         tuple
             True if valid, False else
-            msg (`str`): empty string if date was valid, else failure reason
+            msg(`str`): empty string if date was valid, else failure reason
     '''
     # Check that year is not before YYYY_MIN
     if year < YYYY_MIN:
@@ -158,6 +194,7 @@ def check_validity_date(
     # Check that minutes, seconds are valid and scale them
     # (TODO probs more functions)
     # if seconds nano seconds provided
+    # TODOOOOO
 
     return True, ""
 
@@ -166,7 +203,7 @@ def check_leap_year(year: int) -> bool:
     '''Check if it's a leap year
 
     Args:
-        year (`int`): calendar year
+        year(`int`): calendar year
 
     Returns:
         True if leap year, False else
