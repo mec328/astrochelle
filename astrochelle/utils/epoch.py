@@ -97,7 +97,7 @@ class Epoch():
             )
 
         if not flag_valid:
-            assert EpochException(error_msg)
+            assert EpochException(msg)
 
         # right now i realllllly don't care if this covers everything... i just want a simple representation of the epoch and associated 
         # overwritten math funcs
