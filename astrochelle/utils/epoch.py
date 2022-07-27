@@ -55,8 +55,7 @@ class Epoch():
         day: int = None,
         hours: int = None,
         minutes: int = None,
-        seconds: int = None,
-        nanoseconds: int = None
+        seconds: float = None
 
     ):
         '''Time-keeping class
@@ -70,8 +69,7 @@ class Epoch():
             day (`int`): calendar day
             hours (`int`): TODO
             minutes (`int`): TODO
-            seconds (`int`): TODO
-            nanoseconds (`int`): TODO
+            seconds (`float`): TODO
 
         Attributes:
             time_system (`str`): time system representation to initialize in
@@ -81,8 +79,7 @@ class Epoch():
             day (`int`): calendar day
             hours (`int`): TODO
             minutes (`int`): TODO
-            seconds (`int`): TODO
-            nanoseconds (`int`): TODO
+            seconds (`float`): TODO
 
         '''
         if time_system not in ALLOWED_TIME_SYSTEMS:
@@ -100,7 +97,7 @@ class Epoch():
         # TODO not sure if converting everything to this first before check
         flag_valid, msg = check_validity_date(
             year=year, month=month, day=day, hours=hours,
-            minutes=minutes, seconds=seconds, nanoseconds=nanoseconds
+            minutes=minutes, seconds=seconds
         )
 
         if not flag_valid:
@@ -121,8 +118,7 @@ def check_validity_date(
         day: int = None,
         hours: int = None,
         minutes: int = None,
-        seconds: int = None,
-        nanoseconds: int = None)->tuple:
+        seconds: float = None) -> tuple:
     '''Check that the inputted date vector makes sense
 
     Args:
@@ -131,8 +127,7 @@ def check_validity_date(
         day (`int`): calendar day
         hours (`int`): TODO
         minutes (`int`): TODO
-        seconds (`int`): TODO
-        nanoseconds (`int`): TODO      
+        seconds (`int`): TODO   
 
     Returns:
         tuple
@@ -158,16 +153,16 @@ def check_validity_date(
 
     # Check that minutes and hours are non-negative
     if hours < 0 or minutes < 0:
-        return False, f"Provided hours or minutes negative."
+        return False, "Provided hours or minutes negative."
 
-    # Check that minutes, seconds, nanoseconds are valid and scale them
+    # Check that minutes, seconds are valid and scale them
     # (TODO probs more functions)
     # if seconds nano seconds provided
 
     return True, ""
 
 
-def check_leap_year(year: int)->bool:
+def check_leap_year(year: int) -> bool:
     '''Check if it's a leap year
 
     Args:

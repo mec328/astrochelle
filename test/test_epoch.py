@@ -9,7 +9,7 @@ from astrochelle.utils.epoch import *
 
 
 def test_epoch_initialization():
-    # Pass on ymdhm (no seconds or nano seconds)
+    # Pass on ymdhm (no seconds)
     try:
         epoch = Epoch(
             year=2022,
@@ -20,7 +20,7 @@ def test_epoch_initialization():
     except Exception:
         assert False
 
-    # Pass on ymdhms(ns?)
+    # Pass on ymdhms
     try:
         epoch = Epoch(
             year=2022,
@@ -28,8 +28,7 @@ def test_epoch_initialization():
             day=27,
             hours=12,
             minutes=5,
-            seconds=5,
-            nanoseconds=100)
+            seconds=5)
     except Exception:
         assert False
 
@@ -49,14 +48,13 @@ def test_check_validity_date():
     hours = 12
     minutes = 5
     seconds = 5
-    nanoseconds = 100
 
     # TODO pass
 
     # Year not valid, should return False
     flag_valid, _ = check_validity_date(
         year=-4800, month=month, day=day, hours=hours,
-        minutes=minutes, seconds=seconds, nanoseconds=nanoseconds
+        minutes=minutes, seconds=seconds
     )
 
     assert flag_valid == False
@@ -64,7 +62,7 @@ def test_check_validity_date():
     # Month not valid, should return False
     flag_valid, _ = check_validity_date(
         year=year, month=13, day=day, hours=hours,
-        minutes=minutes, seconds=seconds, nanoseconds=nanoseconds
+        minutes=minutes, seconds=seconds
     )
 
     assert flag_valid == False
@@ -72,7 +70,7 @@ def test_check_validity_date():
     # Day not in provided month, should return False
     flag_valid, _ = check_validity_date(
         year=year, month=13, day=day, hours=hours,
-        minutes=minutes, seconds=seconds, nanoseconds=nanoseconds
+        minutes=minutes, seconds=seconds
     )
 
     assert flag_valid == False
@@ -80,7 +78,7 @@ def test_check_validity_date():
     # It's not a leap year but month is Feb and day is 29, should return False
     flag_valid, _ = check_validity_date(
         year=2021, month=2, day=29, hours=hours,
-        minutes=minutes, seconds=seconds, nanoseconds=nanoseconds
+        minutes=minutes, seconds=seconds
     )
 
     assert flag_valid == False
@@ -88,7 +86,7 @@ def test_check_validity_date():
     # It is a leap year and month is February and day is 29, should return True
     flag_valid, _ = check_validity_date(
         year=2020, month=2, day=29, hours=hours,
-        minutes=minutes, seconds=seconds, nanoseconds=nanoseconds
+        minutes=minutes, seconds=seconds
     )
 
     assert flag_valid
@@ -96,7 +94,7 @@ def test_check_validity_date():
     # Negative hours
     flag_valid, _ = check_validity_date(
         year=year, month=month, day=day, hours=-10,
-        minutes=minutes, seconds=seconds, nanoseconds=nanoseconds
+        minutes=minutes, seconds=seconds
     )
 
     assert flag_valid == False
@@ -104,7 +102,7 @@ def test_check_validity_date():
     # Negative minutes
     flag_valid, _ = check_validity_date(
         year=year, month=month, day=day, hours=hours,
-        minutes=-5, seconds=seconds, nanoseconds=nanoseconds
+        minutes=-5, seconds=seconds
     )
 
     assert flag_valid == False
