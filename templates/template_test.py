@@ -1,4 +1,4 @@
-# test_module_name.py test file should begin with test_ then the name of the 
+# test_module_name.py test file should begin with test_ then the name of the
 # module to test
 # ------------------------------------------------------------------------------
 
@@ -6,4 +6,3 @@
 
 # Astrochelle imports
 # import the module you're testing
-
