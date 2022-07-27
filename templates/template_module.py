@@ -18,10 +18,11 @@
 class ModuleNameException(Exception):
     '''Exceptions related to module_name
     '''
+
     def __init__(
-        self, 
+        self,
         msg: str = "Something went wrong in module_name.py."
-        ):
+    ):
 
         super().__init__(msg)
 
