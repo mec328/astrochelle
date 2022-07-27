@@ -4,6 +4,8 @@
 # DESCRIPTION: description of module
 # AUTHOR: author name
 # CREATED: year-month-day of creation
+# REFERENCES:
+#   [1] Reference used in this module
 # ------------------------------------------------------------------------------
 
 # Python imports
