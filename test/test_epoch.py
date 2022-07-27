@@ -33,7 +33,8 @@ def test_epoch_initialization():
     except Exception:
         assert False
 
-    # One or more of year, month, day, hours, minutes not provided on initialization
+    # One or more of year, month, day, hours, minutes not provided on
+    # initialization
     with pytest.raises(Exception):
         epoch = Epoch(year=2022)
 
@@ -76,7 +77,7 @@ def test_check_validity_date():
 
     assert flag_valid == False
 
-    # It's not a leap year but month is February and day is 29, should return False
+    # It's not a leap year but month is Feb and day is 29, should return False
     flag_valid, _ = check_validity_date(
         year=2021, month=2, day=29, hours=hours,
         minutes=minutes, seconds=seconds, nanoseconds=nanoseconds
