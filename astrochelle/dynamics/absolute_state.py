@@ -15,6 +15,8 @@ from astrochelle.utils.data_models.dm_propagator import *
 ###################
 # GVE Propagation #
 ###################
+
+
 class GVEPropagator():
     def __init__():
         '''Gauss Variational Equation propagation class for 
@@ -25,5 +27,6 @@ class GVEPropagator():
         Attributes:
             TODO
         '''
-        
-        # probs just its config data model and then propagation methods themselves
+
+        # probs just its config data model and then propagation methods
+        # themselves
