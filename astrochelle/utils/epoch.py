@@ -147,10 +147,10 @@ class Epoch():
         Returns:
             `Epoch` result of addition
         '''
-        if isinstance(to_add, float):
+        if isinstance(to_add, float) or isinstance(to_add, int):
             # Float
             new_mjd = self.mean_julian_day
-            new_day_fraction = self.day_fraction + to_add
+            new_day_fraction = self.day_fraction + to_add / SECONDS_IN_DAY
 
         else:
             # Epoch
@@ -169,7 +169,7 @@ class Epoch():
         # Account for rollover
         while new_day_fraction > 1:
             # Needs rollover
-            new_day_fraction -= SECONDS_IN_DAY
+            new_day_fraction -= 1
             new_mjd += 1
 
         # Initialize new Epoch
