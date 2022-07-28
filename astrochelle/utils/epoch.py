@@ -30,6 +30,7 @@ DAYS_IN_MONTH = {
     9: 30, 10: 31, 11: 30, 12: 31
 }  # Definitely had to do the song to get these
 MJD_OFFSET = 2400000.5  # TODO constants file
+SECONDS_IN_DAY = 86400  # TODO constants file
 
 ##################
 # Error Handling #
@@ -61,8 +62,9 @@ class Epoch():
         day: int = None,
         hours: int = None,
         minutes: int = None,
-        seconds: float = None
-
+        seconds: float = None,
+        mean_julian_day: float = None,
+        day_fraction: float = None
     ):
         '''Time-keeping class
 
@@ -70,26 +72,36 @@ class Epoch():
             time_system (`str`): time system representation to initialize in
                 see ALLOWED_TIME_SYSTEMS in `Constants` section
             ---only some args below defined based on input type---
+            # TODO make a table in documentation about this
             year (`int`): calendar year
             month (`int`): calendar month as integer [1,12]
             day (`int`): calendar day
             hours (`int`): TODO
             minutes (`int`): TODO
             seconds (`float`): TODO
+            mean_julian_day (`float`): TODO
+            day_fraction (`float`): TODO
 
         Attributes:
             time_system (`str`): time system representation to initialize in
                 see ALLOWED_TIME_SYSTEMS in `Constants` section
-            TODO
+            mean_julian_day (`float`): TODO
+            day_fraction (`float`): TODO
 
         '''
         if time_system not in ALLOWED_TIME_SYSTEMS:
             # obvious TODO lol
-            raise EpochException(msg="Only UTC time supported right meow.")
+            raise EpochException(
+                msg="See ALLOWED_TIME_SYSTEMS for currently supported systems."
+            )
 
         self.time_system = time_system
 
-        # TODO check here that what inputs are... if already providing mjd, skip the rest
+        if mean_julian_day is not None:
+            # Sweet, no conversions required!
+            self.mean_julian_day = mean_julian_day
+            self.day_fraction = 0 if day_fraction is None else day_fraction
+            return
 
         # Make sure that all required inputs are provided
         ymdhm = [year, month, day, hours, minutes]  # TODO better name
@@ -114,7 +126,7 @@ class Epoch():
             assert EpochException(msg)
 
         # Convert to MJD and day fraction
-        self.mean_julian_day, self.day_fraction = mean_julian_day, day_fraction = to_mjd(
+        self.mean_julian_day, self.day_fraction = to_mjd(
             year=year,
             month=month,
             day=day,
@@ -122,6 +134,36 @@ class Epoch():
             minutes=minutes,
             seconds=seconds
         )
+
+    def __add__(self, other_epoch):
+        '''Overloaded addition operator, including rollover considerations 
+        (epoch+epoch)
+
+        Args:
+            other_epoch (`Epoch`): epoch you want to add to the current epoch
+
+        Returns:
+            `Epoch` result of addition
+        '''
+        # Check that the time_systems are the same
+        if self.time_system != other_epoch.time_system:
+            raise EpochException(
+                f"Mismatch ({self.time_system},{other_epoch.time_system})")
+
+        # Add the MJDs
+        new_mjd = self.mean_julian_day + other_epoch.mean_julian_day
+
+        # Add fractional days
+        new_day_fraction = self.day_fraction + other_epoch.day_fraction
+
+        # Account for rollover
+        while new_day_fraction > 1:
+            # Needs rollover
+            new_day_fraction -= SECONDS_IN_DAY
+            new_mjd += 1
+
+        # Initialize new Epoch
+        return Epoch(mean_julian_day=new_mjd, day_fraction=new_day_fraction)
 
 ########################
 # Supporting Functions #

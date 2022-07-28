@@ -40,7 +40,18 @@ def test_epoch_initialization():
     with pytest.raises(Exception):
         epoch = Epoch(year=2022)
 
-    # TODO MORE HERE
+    # TODO more?
+
+
+def test_add():
+    # Mismatched time systems
+    pass
+
+    # With rollover
+    pass
+
+    # Without rollover
+    pass
 
 
 def test_check_validity_date():
@@ -141,3 +152,8 @@ def test_to_jd():
         seconds=0)
 
     assert abs(JD - 2451545.0000000) < 1e-8
+
+
+def test_to_mjd():
+    # TODO
+    pass
