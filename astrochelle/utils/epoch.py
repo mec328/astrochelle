@@ -135,26 +135,36 @@ class Epoch():
             seconds=seconds
         )
 
-    def __add__(self, other_epoch):
+    def __add__(self, to_add):
         '''Overloaded addition operator, including rollover considerations 
         (epoch+epoch)
 
         Args:
-            other_epoch (`Epoch`): epoch you want to add to the current epoch
+            to_add (`Epoch` or `float`): epoch or float you want to add 
+            to the current epoch
+                if `float`, [s]
 
         Returns:
             `Epoch` result of addition
         '''
-        # Check that the time_systems are the same
-        if self.time_system != other_epoch.time_system:
-            raise EpochException(
-                f"Mismatch ({self.time_system},{other_epoch.time_system})")
+        if isinstance(to_add, float):
+            # Float
+            new_mjd = self.mean_julian_day
+            new_day_fraction = self.day_fraction + to_add
 
-        # Add the MJDs
-        new_mjd = self.mean_julian_day + other_epoch.mean_julian_day
+        else:
+            # Epoch
 
-        # Add fractional days
-        new_day_fraction = self.day_fraction + other_epoch.day_fraction
+            # Check that the time_systems are the same
+            if self.time_system != to_add.time_system:
+                raise EpochException(
+                    f"Mismatch ({self.time_system},{to_add.time_system})")
+
+            # Add the MJDs
+            new_mjd = self.mean_julian_day + to_add.mean_julian_day
+
+            # Add fractional days
+            new_day_fraction = self.day_fraction + to_add.day_fraction
 
         # Account for rollover
         while new_day_fraction > 1:
@@ -164,6 +174,7 @@ class Epoch():
 
         # Initialize new Epoch
         return Epoch(mean_julian_day=new_mjd, day_fraction=new_day_fraction)
+
 
 ########################
 # Supporting Functions #
