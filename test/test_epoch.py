@@ -132,7 +132,7 @@ def test_check_leap_year():
 
 def test_to_jd():
     # Comparing this algo to JPL's algorithm at Ref. 1.
-    epoch = Epoch(
+    JD = to_jd(
         year=2000,
         month=1,
         day=1,
@@ -140,4 +140,4 @@ def test_to_jd():
         minutes=0,
         seconds=0)
 
-    assert abs(epoch.to_jd() - 2451545.0000000) < 1e-8
+    assert abs(JD - 2451545.0000000) < 1e-8

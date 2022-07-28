@@ -80,12 +80,7 @@ class Epoch():
         Attributes:
             time_system (`str`): time system representation to initialize in
                 see ALLOWED_TIME_SYSTEMS in `Constants` section
-            year (`int`): calendar year
-            month (`int`): calendar month as integer [1,12]
-            day (`int`): calendar day
-            hours (`int`): TODO
-            minutes (`int`): TODO
-            seconds (`float`): TODO
+            TODO
 
         '''
         if time_system not in ALLOWED_TIME_SYSTEMS:
@@ -93,6 +88,8 @@ class Epoch():
             raise EpochException(msg="Only UTC time supported right meow.")
 
         self.time_system = time_system
+
+        # TODO check here that what inputs are... if already providing mjd, skip the rest
 
         # Make sure that all required inputs are provided
         ymdhm = [year, month, day, hours, minutes]  # TODO better name
@@ -104,6 +101,9 @@ class Epoch():
         if seconds is None:
             seconds = 0
 
+        # Scale hours, minutes, seconds if necessary
+        # TODO
+
         # TODO not sure if converting everything to this first before check
         flag_valid, msg = check_validity_date(
             year=year, month=month, day=day, hours=hours,
@@ -113,67 +113,97 @@ class Epoch():
         if not flag_valid:
             assert EpochException(msg)
 
-        # TODO more stuff
-
-        # Looks good! Save things
-        self.year = year
-        self.month = month
-        self.day = day
-        self.hours = hours
-        self.minutes = minutes
-        self.seconds = seconds
-
-    def to_mjd(self) -> tuple:
-        '''Convert UTC time (saved) to Julian Date (JD)
-
-        Args:
-            None
-
-        Modifies:
-            None (TODO? mb i want this to be an attribute)
-
-        Returns:
-            tuple
-                MJD (`float`) for zero hours (aka day number)
-                day_fraction (`float`): fraction of day past zero hours
-
-        Notes:
-            Adapted from iauCal2jd in Ref. 3
-        '''
-
-        # Compute scaled month (See pages 67-68 in Ref. 1)
-        mo_scaled = int((self.month - 14) / 12)
-        year_mo_scaled = int(self.year + mo_scaled)
-
-        mean_julian_day = (
-            (int((1461 * (year_mo_scaled + 4800)) / 4)
-             + int((367 * int((self.month - 2 - 12 * mo_scaled))) / 12)
-             - int((3 * ((year_mo_scaled + 4900) / 100)) / 4)
-             + int(self.day) - 2432076)
+        # Convert to MJD and day fraction
+        self.mean_julian_day, self.day_fraction = mean_julian_day, day_fraction = to_mjd(
+            year=year,
+            month=month,
+            day=day,
+            hours=hours,
+            minutes=minutes,
+            seconds=seconds
         )
-        day_fraction = (self.hours + self.minutes/60 + self.seconds/3600)/24
-
-        return (mean_julian_day, day_fraction)
-
-    def to_jd(self) -> float:
-        '''Convert UTC time (saved) to Mean Julian Date (MJD)
-
-        Args:
-            None
-
-        Modifies:
-            None (TODO? mb i want this to be an attribute)
-
-        Returns:
-            JD (`float`)
-        '''
-
-        mean_julian_day, day_fraction = self.to_mjd()
-        return mean_julian_day + day_fraction + MJD_OFFSET
 
 ########################
 # Supporting Functions #
 ########################
+
+
+def to_mjd(year: int = None,
+           month: int = None,
+           day: int = None,
+           hours: int = None,
+           minutes: int = None,
+           seconds: float = None) -> tuple:
+    '''Convert UTC time (saved) to Julian Date (JD)
+
+    Args:
+        year (`int`): calendar year
+        month (`int`): calendar month as integer [1,12]
+        day (`int`): calendar day
+        hours (`int`): TODO
+        minutes (`int`): TODO
+        seconds (`float`): TODO
+
+    Modifies:
+        None (TODO? mb i want this to be an attribute)
+
+    Returns:
+        tuple
+            MJD (`float`) for zero hours (aka day number)
+            day_fraction (`float`): fraction of day past zero hours
+
+    Notes:
+        Adapted from iauCal2jd in Ref. 3
+    '''
+
+    # Compute scaled month (See pages 67-68 in Ref. 1)
+    mo_scaled = int((month - 14) / 12)
+    year_mo_scaled = int(year + mo_scaled)
+
+    mean_julian_day = (
+        (int((1461 * (year_mo_scaled + 4800)) / 4)
+         + int((367 * int((month - 2 - 12 * mo_scaled))) / 12)
+         - int((3 * ((year_mo_scaled + 4900) / 100)) / 4)
+         + int(day) - 2432076)
+    )
+    day_fraction = (hours + minutes/60 + seconds/3600)/24
+
+    return (mean_julian_day, day_fraction)
+
+
+def to_jd(
+        year: int = None,
+        month: int = None,
+        day: int = None,
+        hours: int = None,
+        minutes: int = None,
+        seconds: float = None) -> float:
+    '''Convert UTC time (saved) to Mean Julian Date (MJD)
+
+    Args:
+        year (`int`): calendar year
+        month (`int`): calendar month as integer [1,12]
+        day (`int`): calendar day
+        hours (`int`): TODO
+        minutes (`int`): TODO
+        seconds (`float`): TODO
+
+    Modifies:
+        None (TODO? mb i want this to be an attribute)
+
+    Returns:
+        JD (`float`)
+    '''
+
+    mean_julian_day, day_fraction = to_mjd(
+        year=year,
+        month=month,
+        day=day,
+        hours=hours,
+        minutes=minutes,
+        seconds=seconds
+    )
+    return mean_julian_day + day_fraction + MJD_OFFSET
 
 
 def check_validity_date(
