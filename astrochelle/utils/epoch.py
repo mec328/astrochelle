@@ -9,6 +9,10 @@
 #       First edition.
 #   [2] Eugene Yarmash. "How to determine whether a year is a leap year?".
 #       https://stackoverflow.com/q/11621740
+#   [3] Software Routines from the IAU SOFA Collection were used.
+#       Copyright International Astronomical Union Standards of Fundamental
+#       Astronomy (http://www.iausofa.org)”.
+#       Documentation: https://www.iausofa.org/2021_0512_C/sofa/sofa_ts_c.pdf
 # ------------------------------------------------------------------------------
 
 # Python imports
@@ -19,12 +23,13 @@ from math import floor
 
 # Constants
 ALLOWED_TIME_SYSTEMS = ['UTC']
-YYYY_MIN = -4713  # 4713 BC from Ref. 1, page 67
+YEAR_MIN = -4713  # 4713 BC from Ref. 1, page 67
 DAYS_IN_MONTH = {
     1: 31, 2: 28, 3: 31, 4: 30,
     5: 31, 6: 30, 7: 31, 8: 31,
     9: 30, 10: 31, 11: 30, 12: 31
 }  # Definitely had to do the song to get these
+MJD_OFFSET = 2400000.5  # TODO constants file
 
 ##################
 # Error Handling #
@@ -118,7 +123,7 @@ class Epoch():
         self.minutes = minutes
         self.seconds = seconds
 
-    def to_jd(self):
+    def to_mjd(self) -> tuple:
         '''Convert UTC time (saved) to Julian Date (JD)
 
         Args:
@@ -128,18 +133,29 @@ class Epoch():
             None (TODO? mb i want this to be an attribute)
 
         Returns:
-            JD (`float`)
+            tuple
+                MJD (`float`) for zero hours
+                day_fraction (`float`): fraction of day past zero hours
 
         Notes:
-            Algorithm 2 on page 68 in Ref. [1]
+            Adapted from iauCal2jd in Ref. 3
         '''
 
-        return 367*self.year - floor(
-            (7*(self.year + floor((self.month + 9)/12)))/4) + floor(
-            275*self.month/9) + self.day + 1721013.5 + (
-            (self.seconds/60 + self.minutes)/60 + self.hours)/24
+        # Compute scaled month (See pages 67-68 in Ref. 1)
+        mo_scaled = int((self.month - 14) / 12)
+        year_mo_scaled = int(self.year + mo_scaled)
 
-    def to_mjd(self):
+        mean_julian_day = (
+            (int((1461 * (year_mo_scaled + 4800)) / 4)
+             + int((367 * int((self.month - 2 - 12 * mo_scaled))) / 12)
+             - int((3 * ((year_mo_scaled + 4900) / 100)) / 4)
+             + int(self.day) - 2432076)
+        )
+        day_fraction = (self.hours + self.minutes/60 + self.seconds/3600)/24
+
+        return (mean_julian_day, day_fraction)
+
+    def to_jd(self) -> float:
         '''Convert UTC time (saved) to Mean Julian Date (MJD)
 
         Args:
@@ -149,10 +165,11 @@ class Epoch():
             None (TODO? mb i want this to be an attribute)
 
         Returns:
-            MJD (`float`)
+            JD (`float`)
         '''
 
-        return True
+        mean_julian_day, day_fraction = self.to_mjd()
+        return mean_julian_day + day_fraction + MJD_OFFSET
 
 ########################
 # Supporting Functions #
@@ -181,9 +198,9 @@ def check_validity_date(
             True if valid, False else
             msg(`str`): empty string if date was valid, else failure reason
     '''
-    # Check that year is not before YYYY_MIN
-    if year < YYYY_MIN:
-        return False, f"Provided year {year} is less than {YYYY_MIN}."
+    # Check that year is not before YEAR_MIN
+    if year < YEAR_MIN:
+        return False, f"Provided year {year} is less than {YEAR_MIN}."
 
     # Check that month is real
     if month < 1 or month > 12:
