@@ -134,7 +134,7 @@ class Epoch():
 
         Returns:
             tuple
-                MJD (`float`) for zero hours
+                MJD (`float`) for zero hours (aka day number)
                 day_fraction (`float`): fraction of day past zero hours
 
         Notes:
@@ -216,13 +216,14 @@ def check_validity_date(
         return False, f"Provided day {day} not in month {month}."
 
     # Check that minutes and hours are non-negative
-    if hours < 0 or minutes < 0:
-        return False, "Provided hours or minutes negative."
+    if hours < 0 or minutes < 0 or seconds < 0:
+        return False, "Provided hours, minutes, or seconds negative."
 
-    # Check that minutes, seconds are valid and scale them
-    # (TODO probs more functions)
-    # if seconds nano seconds provided
-    # TODOOOOO
+    # Check that minutes, hours, seconds provide are less than a fraction of a
+    # day
+    day_fraction = (hours + minutes/60 + seconds/3600)/24
+    if day_fraction > 1:
+        return False, f"Day fraction {day_fraction} greater than a day."
 
     return True, ""
 

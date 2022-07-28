@@ -110,7 +110,13 @@ def test_check_validity_date():
 
     assert flag_valid == False
 
-    # MORE HERE TODO
+    # Day fraction larger than a day
+    flag_valid, _ = check_validity_date(
+        year=year, month=month, day=day, hours=23,
+        minutes=60, seconds=5
+    )
+
+    assert flag_valid == False
 
 
 def test_check_leap_year():
