@@ -70,7 +70,16 @@ def test_add():
         epoch_2.day_fraction - SECONDS_IN_DAY
 
     # Without rollover
-    pass
+    epoch_4 = Epoch(
+        year=2022,
+        month=7,
+        day=27,
+        hours=1,
+        minutes=5
+    )
+    epoch_5 = epoch_1 + epoch_4
+    assert epoch_5.mean_julian_day == epoch_1.mean_julian_day + epoch_4.mean_julian_day
+    assert epoch_5.day_fraction == epoch_1.day_fraction + epoch_4.day_fraction
 
 
 def test_check_validity_date():
