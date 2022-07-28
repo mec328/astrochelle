@@ -45,10 +45,29 @@ def test_epoch_initialization():
 
 def test_add():
     # Mismatched time systems
-    pass
+    # TODO when i have other time systems
 
     # With rollover
-    pass
+    epoch_1 = Epoch(
+        year=2022,
+        month=7,
+        day=27,
+        hours=12,
+        minutes=5,
+        seconds=5)
+    epoch_2 = Epoch(
+        year=2022,
+        month=7,
+        day=27,
+        hours=12,
+        minutes=5
+    )
+    # LOL why would you even do this i just realized this is dumb
+    epoch_3 = epoch_1 + epoch_2
+    assert epoch_3.mean_julian_day == epoch_1.mean_julian_day + \
+        epoch_2.mean_julian_day + 1
+    assert epoch_3.day_fraction == epoch_1.day_fraction + \
+        epoch_2.day_fraction - SECONDS_IN_DAY
 
     # Without rollover
     pass
