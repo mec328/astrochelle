@@ -76,17 +76,17 @@ class Epoch():
             year (`int`): calendar year
             month (`int`): calendar month as integer [1,12]
             day (`int`): calendar day
-            hours (`int`): TODO
-            minutes (`int`): TODO
-            seconds (`float`): TODO
-            mean_julian_day (`float`): TODO
-            day_fraction (`float`): TODO
+            hours (`int`): hours (24 hour format)
+            minutes (`int`): minutes
+            seconds (`float`): seconds
+            mean_julian_day (`float`): mean julian day for zero hours
+            day_fraction (`float`): fraction of day past zero hours 
 
         Attributes:
             time_system (`str`): time system representation to initialize in
                 see ALLOWED_TIME_SYSTEMS in `Constants` section
-            mean_julian_day (`float`): TODO
-            day_fraction (`float`): TODO
+            mean_julian_day (`float`): mean julian day for zero hours
+            day_fraction (`float`): fraction of day past zero hours 
 
         '''
         if time_system not in ALLOWED_TIME_SYSTEMS:
@@ -113,10 +113,7 @@ class Epoch():
         if seconds is None:
             seconds = 0
 
-        # Scale hours, minutes, seconds if necessary
-        # TODO
-
-        # TODO not sure if converting everything to this first before check
+        # Check validity if inputted in calendar date format
         flag_valid, msg = check_validity_date(
             year=year, month=month, day=day, hours=hours,
             minutes=minutes, seconds=seconds
@@ -193,9 +190,9 @@ def to_mjd(year: int = None,
         year (`int`): calendar year
         month (`int`): calendar month as integer [1,12]
         day (`int`): calendar day
-        hours (`int`): TODO
-        minutes (`int`): TODO
-        seconds (`float`): TODO
+        hours (`int`): hours (24 hour format)
+        minutes (`int`): minutes
+        seconds (`float`): seconds 
 
     Modifies:
         None (TODO? mb i want this to be an attribute)
@@ -237,9 +234,9 @@ def to_jd(
         year (`int`): calendar year
         month (`int`): calendar month as integer [1,12]
         day (`int`): calendar day
-        hours (`int`): TODO
-        minutes (`int`): TODO
-        seconds (`float`): TODO
+        hours (`int`): hours (24 hour format)
+        minutes (`int`): minutes
+        seconds (`float`): seconds
 
     Modifies:
         None (TODO? mb i want this to be an attribute)
@@ -272,9 +269,9 @@ def check_validity_date(
         year(`int`): calendar year
         month(`int`): calendar month as integer[1, 12]
         day(`int`): calendar day
-        hours(`int`): TODO
-        minutes(`int`): TODO
-        seconds(`float`): TODO
+        hours(`int`): hours (24 hour format)
+        minutes(`int`): minutes
+        seconds(`float`): seconds
 
     Returns:
         tuple
