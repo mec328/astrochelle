@@ -19,21 +19,13 @@
 # ------------------------------------------------------------------------------
 
 # Python imports
-import numpy as np
 from math import floor
 
 # Astrochelle imports
+from astrochelle.utils.constants import SECONDS_IN_DAY, YEAR_MIN, DAYS_IN_MONTH, MJD_OFFSET
 
 # Constants
 ALLOWED_TIME_SYSTEMS = ['UTC']
-YEAR_MIN = -4713  # 4713 BC from Ref. 1, page 67
-DAYS_IN_MONTH = {
-    1: 31, 2: 28, 3: 31, 4: 30,
-    5: 31, 6: 30, 7: 31, 8: 31,
-    9: 30, 10: 31, 11: 30, 12: 31
-}  # Definitely had to do the song to get these
-MJD_OFFSET = 2400000.5  # TODO constants file
-SECONDS_IN_DAY = 86400  # TODO constants file
 
 ##################
 # Error Handling #
