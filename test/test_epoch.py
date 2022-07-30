@@ -136,6 +136,18 @@ def test_subtract():
         epoch_4.mean_julian_day
     assert epoch_5.day_fraction == epoch_1.day_fraction - epoch_4.day_fraction
 
+    # Input is an int, with rollover
+    epoch_6 = epoch_1 - (13*3600)
+
+    assert epoch_6.mean_julian_day == epoch_1.mean_julian_day - 1
+    expected = epoch_1.day_fraction + 1 - (13*3600)/SECONDS_IN_DAY
+    assert abs(epoch_6.day_fraction - expected) < 1e-8
+
+    # Input is a float, without rollover
+    epoch_6 = epoch_1 - 49.1
+    assert epoch_6.mean_julian_day == epoch_1.mean_julian_day
+    assert epoch_6.day_fraction == epoch_1.day_fraction - 49.1/SECONDS_IN_DAY
+
 
 def test_check_validity_date():
     # Defaults
