@@ -15,6 +15,7 @@
 #       Documentation: https://www.iausofa.org/2021_0512_C/sofa/sofa_ts_c.pdf
 # TODO:
 #   Should probably eventually implement `iauDtf2d` from Ref. 3
+#   This is the simplest implementation. May need more, including print format
 # ------------------------------------------------------------------------------
 
 # Python imports
