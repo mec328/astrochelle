@@ -23,6 +23,7 @@ import numpy as np
 from math import floor
 
 # Astrochelle imports
+from astrochelle.utils.constants import SECONDS_IN_DAY
 
 # Constants
 ALLOWED_TIME_SYSTEMS = ['UTC']
@@ -33,7 +34,6 @@ DAYS_IN_MONTH = {
     9: 30, 10: 31, 11: 30, 12: 31
 }  # Definitely had to do the song to get these
 MJD_OFFSET = 2400000.5  # TODO constants file
-SECONDS_IN_DAY = 86400  # TODO constants file
 
 ##################
 # Error Handling #
