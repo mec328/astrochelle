@@ -97,6 +97,46 @@ def test_add():
     assert epoch_6.day_fraction == epoch_1.day_fraction + 49.1/SECONDS_IN_DAY
 
 
+def test_subtract():
+    # Mismatched time systems
+    # TODO when i have other time systems
+
+    # With rollover
+    epoch_1 = Epoch(
+        year=2022,
+        month=7,
+        day=27,
+        hours=12,
+        minutes=5,
+        seconds=5)
+    epoch_2 = Epoch(
+        year=2022,
+        month=7,
+        day=27,
+        hours=12,
+        minutes=25
+    )
+    # LOL why would you even do this i just realized this is dumb
+    epoch_3 = epoch_1 - epoch_2
+    assert epoch_3.mean_julian_day == epoch_1.mean_julian_day - \
+        epoch_2.mean_julian_day - 1
+    assert epoch_3.day_fraction == epoch_1.day_fraction - \
+        epoch_2.day_fraction + 1
+
+    # Without rollover
+    epoch_4 = Epoch(
+        year=2022,
+        month=7,
+        day=27,
+        hours=1,
+        minutes=5
+    )
+    epoch_5 = epoch_1 - epoch_4
+    assert epoch_5.mean_julian_day == epoch_1.mean_julian_day - \
+        epoch_4.mean_julian_day
+    assert epoch_5.day_fraction == epoch_1.day_fraction - epoch_4.day_fraction
+
+
 def test_check_validity_date():
     # Defaults
     year = 2022
