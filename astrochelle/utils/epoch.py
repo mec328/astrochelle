@@ -13,6 +13,8 @@
 #       Copyright International Astronomical Union Standards of Fundamental
 #       Astronomy (http://www.iausofa.org)”.
 #       Documentation: https://www.iausofa.org/2021_0512_C/sofa/sofa_ts_c.pdf
+# TODO:
+#   Should probably eventually implement `iauDtf2d` from Ref. 3
 # ------------------------------------------------------------------------------
 
 # Python imports
