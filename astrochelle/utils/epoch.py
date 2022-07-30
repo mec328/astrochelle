@@ -82,13 +82,13 @@ class Epoch():
             minutes (`int`): minutes
             seconds (`float`): seconds
             mean_julian_day (`float`): mean julian day for zero hours
-            day_fraction (`float`): fraction of day past zero hours 
+            day_fraction (`float`): fraction of day past zero hours
 
         Attributes:
             time_system (`str`): time system representation to initialize in
                 see ALLOWED_TIME_SYSTEMS in `Constants` section
             mean_julian_day (`float`): mean julian day for zero hours
-            day_fraction (`float`): fraction of day past zero hours 
+            day_fraction (`float`): fraction of day past zero hours
 
         '''
         if time_system not in ALLOWED_TIME_SYSTEMS:
@@ -135,11 +135,11 @@ class Epoch():
         )
 
     def __add__(self, to_add):
-        '''Overloaded addition operator, including rollover considerations 
+        '''Overloaded addition operator, including rollover considerations
         (epoch+epoch)
 
         Args:
-            to_add (`Epoch` or `float`): epoch or float you want to add 
+            to_add (`Epoch` or `float`): epoch or float you want to add
             to the current epoch
                 if `float`, [s]
 
@@ -174,6 +174,45 @@ class Epoch():
         # Initialize new Epoch
         return Epoch(mean_julian_day=new_mjd, day_fraction=new_day_fraction)
 
+    def __sub__(self, to_subtract):
+        '''Overloaded subtraction operator, including rollover considerations
+        (epoch+epoch)
+
+        Args:
+            to_subtract (`Epoch` or `float`): epoch or float you want to
+            subtract from the current epoch
+                if `float`, [s]
+
+        Returns:
+            `Epoch` result of addition
+        '''
+        if isinstance(to_subtract, float) or isinstance(to_subtract, int):
+            # Float
+            new_mjd = self.mean_julian_day
+            new_day_fraction = self.day_fraction - to_subtract / SECONDS_IN_DAY
+
+        else:
+            # Epoch
+
+            # Check that the time_systems are the same
+            if self.time_system != to_subtract.time_system:
+                raise EpochException(
+                    f"Mismatch ({self.time_system},{to_subtract.time_system})")
+
+            # Add the MJDs
+            new_mjd = self.mean_julian_day - to_subtract.mean_julian_day
+
+            # Add fractional days
+            new_day_fraction = self.day_fraction - to_subtract.day_fraction
+
+        # Account for rollover
+        while new_day_fraction < 0:
+            # Needs rollover
+            new_day_fraction += 1
+            new_mjd -= 1
+
+        # Initialize new Epoch
+        return Epoch(mean_julian_day=new_mjd, day_fraction=new_day_fraction)
 
 ########################
 # Supporting Functions #
