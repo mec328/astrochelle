@@ -2,6 +2,8 @@
 #
 # References:
 #   [1] JD Date/Time Converter. https://ssd.jpl.nasa.gov/tools/jdc/#/cd
+#   [2] Vallado, David A. Fundamentals of astrodynamics and applications.
+#       First edition.
 # ------------------------------------------------------------------------------
 
 # Python imports
@@ -193,6 +195,17 @@ def test_to_jd():
         seconds=0)
 
     assert abs(JD - 2451545.0000000) < 1e-8
+
+    # Comparing to example 1.4 in Ref. 2
+    JD = to_jd(
+        year=1996,
+        month=10,
+        day=26,
+        hours=14,
+        minutes=20,
+        seconds=0)
+
+    assert abs(JD - 2450383.09722222) < 1e-8
 
 
 def test_to_mjd():
