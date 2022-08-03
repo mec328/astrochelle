@@ -27,23 +27,27 @@ class GVEPropagator():
                 see `dm_propagator.py`
 
         Attributes:
+            propagator_config (`GVEPropagatorConfig`): propagator configuration
+                see `dm_propagator.py`
             TODO
         '''
 
         # probs just its config data model and then propagation methods
-        # themselves
+        # themselves, aka step(), accelerations, etc
 
 
-def propagate_formation(spacecraft: list):
+def propagate_formation(spacecraft: list, propagator):
     '''TODO this is where we'd load in list of spacecraft and the propagator
 
     Args:
        spacecraft (`list`): list of `Spacecraft` objects
+       propagator: initialized propagator object of choice (currently only GVE)
 
     Returns:
         TODO
     '''
     # For each spacecraft in the list
-    # Get its initial state and config params, initialize propagator
+    # Get its initial state and config params, propagate
+    # Update the spacecraft state in the object, and output all the data
 
     return

@@ -8,8 +8,10 @@
 
 # Python imports
 import numpy as np
+from copy import deepcopy
 
 # Astrochelle imports
+from astrochelle.utils.epoch import Epoch
 from astrochelle.utils.data_models.dm_spacecraft import *
 
 ##################
@@ -35,19 +37,25 @@ class SpacecraftException(Exception):
 class Spacecraft():
     def __init__(
         self,
+        spacecraft_config: SpacecraftConfig,
+        initial_epoch: Epoch,
         initial_state: np.array,
         initial_state_type: str
     ):
         '''Class representing a spacecraft
 
         Args:
-            initial_epoch (`Epoch`): aw shiet TODO
+            spacecraft_config (`SpacecraftConfig`): configuration parameters 
+                for this spacecraft
+            initial_epoch (`Epoch`): initial epoch
             initial_state (`np.array`): 6 dof initial state of spacecraft
             initial_state_type (`str`): type of the initial state 
                 ('koe','eci', TODO more to come when i write conversions)
 
         Attributes:
-            epoch (`Epoch`): aw shiet TODO
+            spacecraft_config (`SpacecraftConfig`): configuration parameters 
+                for this spacecraft
+            epoch (`Epoch`): current epoch
             state (`np.array`): 6 dof current state of spacecraft
             state_type (`str`): type of the state 
                 ('koe','eci', TODO more to come when i write conversions)
@@ -57,3 +65,8 @@ class Spacecraft():
         if not initial_state.size == 6:
             raise SpacecraftException(
                 msg=f"Provided initial state size {initial_state.size} != 6.")
+
+        # Set attributes
+        self.spacecraft_config = spacecraft_config
+        self.epoch = deepcopy(initial_epoch)
+        self.state = initial_state
