@@ -11,6 +11,7 @@
 # Python imports
 import numpy as np
 from copy import deepcopy
+from scipy import integrate
 
 # Astrochelle imports
 from astrochelle.utils.epoch import Epoch
@@ -40,7 +41,8 @@ class AbsoluteStateException(Exception):
 class GVEPropagator():
     def __init__(self,
                  propagator_config: GVEPropagatorConfig,
-                 initial_epoch: Epoch
+                 initial_epoch: Epoch,
+                 initial_state: np.array
                  ):
         '''Gauss Variational Equation propagation class for 
         Keplerian orbital elements
@@ -63,8 +65,9 @@ class GVEPropagator():
         # Set attributes
         self.propagator_config = propagator_config
         self.epoch = deepcopy(initial_epoch)
+        self.state = initial_state
 
-        # probs just its config data model and then propagation methods
+        # TODO probs just its config data model and then propagation methods
         # themselves, aka step(), accelerations, etc
 
     def step(self, timestep: float = None):
@@ -74,7 +77,8 @@ class GVEPropagator():
             timestep (`float`): propagate state in time by this increment [s]
 
         Modifies:
-            TODO
+            epoch
+            state
 
         Returns:
             TODO
