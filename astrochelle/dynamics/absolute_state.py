@@ -44,7 +44,7 @@ class GVEPropagator():
                  initial_epoch: Epoch,
                  initial_state: np.array
                  ):
-        '''Gauss Variational Equation propagation class for 
+        '''Gauss Variational Equation propagation class for
         Keplerian orbital elements
 
         Args:
@@ -58,6 +58,7 @@ class GVEPropagator():
             propagator_config (`GVEPropagatorConfig`): propagator configuration
                 see `dm_propagator.py`
             epoch (`Epoch`): current epoch
+            propagator_time (`float`): time since initial epoch [s]
             state (`np.array`): current state (assumed KOE TODO)
             TODO
         '''
@@ -65,6 +66,7 @@ class GVEPropagator():
         # Set attributes
         self.propagator_config = propagator_config
         self.epoch = deepcopy(initial_epoch)
+        self.propagator_time = 0
         self.state = initial_state
 
         # TODO probs just its config data model and then propagation methods
@@ -79,16 +81,36 @@ class GVEPropagator():
         Modifies:
             epoch
             state
-
-        Returns:
-            TODO
         '''
-        # If no timestep is provided, just step by default
+        if timestep is None:
+            timestep = self.timestep
 
+        # If no timestep is provided, just step by default
         # If timestep is provided, step by that amount (note this can cause
         # issues if timestep is too large!!)
 
-        return
+        # Integrate twice
+        new_velocity = integrate.rk45(
+            fun=self.calculate_acceleration(),
+            t0=self.propagator_time,
+            y0=self.state[3:],
+            t_bound=self.propagator_time+timestep
+        )
+
+        new_position = integrate.rk45(
+            fun=new_velocity,
+            t0=self.propagator_time,
+            y0=self.state[1:3],
+            t_bound=self.propagator_time+timestep
+        )
+
+        # Modify state
+        self.state[3:] = new_velocity
+        self.state[1:3] = new_position
+
+        # Increment time
+        self.epoch += timestep  # TODO i dont think i wrote this function yet haha
+        self.propagator_time += timestep
 
     def step_to(self, timestep: float = None, to_epoch: Epoch = None):
         '''Step forward in time
@@ -105,7 +127,7 @@ class GVEPropagator():
             TODO
 
         Notes:
-            if no timestep or epoch is provided, step forward by default 
+            if no timestep or epoch is provided, step forward by default
                 timestep (aka identical to step function)
         '''
         if timestep is not None:
@@ -135,7 +157,20 @@ class GVEPropagator():
             self.step()
             return
 
-        return
+    def calculate_acceleration(self) -> np.array:
+        '''Calculate acceleration at current time for use in integration
+
+        Args:
+            TODO
+
+        Modifies:
+            TODO
+
+        Returns:
+            acceleration (`np.array`): 3 dimensional acceleration in RTN
+        '''
+        # TODO
+        return np.zeros(3)
 
 
 def propagate_formation(spacecraft: list, propagator):
