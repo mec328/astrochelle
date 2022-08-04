@@ -109,7 +109,7 @@ class GVEPropagator():
         self.state[1:3] = new_position
 
         # Increment time
-        self.epoch += timestep  # TODO i dont think i wrote this function yet haha
+        self.epoch += timestep
         self.propagator_time += timestep
 
     def step_to(self, timestep: float = None, to_epoch: Epoch = None):
