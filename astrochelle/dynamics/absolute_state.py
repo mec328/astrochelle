@@ -72,26 +72,32 @@ class GVEPropagator():
         # TODO probs just its config data model and then propagation methods
         # themselves, aka step(), accelerations, etc
 
-    def step(self, timestep: float = None):
+    def step(self, timestep: float = None, acceleration: np.array = None):
         '''Step forward in time
 
         Args:
-            timestep (`float`): propagate state in time by this increment [s]
+            timestep (`float`): propagate state in time by this increment [s] 
+                (optional, will use default if None)
+            acceleration (`np.array`): acceleration 
+                (optional, will calculate it internally if None)
 
         Modifies:
             epoch
             state
         '''
-        if timestep is None:
-            timestep = self.timestep
-
         # If no timestep is provided, just step by default
         # If timestep is provided, step by that amount (note this can cause
         # issues if timestep is too large!!)
+        if timestep is None:
+            timestep = self.timestep
+
+        # If no acceleration is provided, calculate it internally
+        if acceleration is None:
+            acceleration = self.calculate_acceleration()
 
         # Integrate twice
         new_velocity = integrate.rk45(
-            fun=self.calculate_acceleration(),
+            fun=acceleration,
             t0=self.propagator_time,
             y0=self.state[3:],
             t_bound=self.propagator_time+timestep

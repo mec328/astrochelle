@@ -50,10 +50,21 @@ def propagator_example()->GVEPropagator:
     return propagator
 
 
-def test_step():
-    # TODO check that it steps by the default timestep in config
-
+def test_calculate_acceleration():
     # TODO
+    pass
+
+
+def test_step():
+    # Provide timestep and acceleration
+
+    # Provide timestep, no acceleration (so it calculates it internally) TODO
+
+    # No timestep, provide acceleration
+    #   (should use default timestep)
+
+    # No timestep, no acceleration
+    # (so it uses default timestep and calculates acceleration internally) TODO
     pass
 
 
