@@ -10,6 +10,7 @@
 import numpy as np
 
 # Astrochelle imports
+from astrochelle.utils.epoch import Epoch
 from astrochelle.utils.data_models.dm_propagator import GVEPropagatorConfig
 
 ###################
@@ -18,7 +19,7 @@ from astrochelle.utils.data_models.dm_propagator import GVEPropagatorConfig
 
 
 class GVEPropagator():
-    def __init__(propagator_config: GVEPropagatorConfig):
+    def __init__(self, propagator_config: GVEPropagatorConfig):
         '''Gauss Variational Equation propagation class for 
         Keplerian orbital elements
 
@@ -32,8 +33,30 @@ class GVEPropagator():
             TODO
         '''
 
+        # Set attributes
+        self.propagator_config = propagator_config
+
         # probs just its config data model and then propagation methods
         # themselves, aka step(), accelerations, etc
+
+    def step(self, timestep: float = None, to_epoch: Epoch = None):
+        '''Step forward in time
+
+        Args:
+            timestep (`float`): propagate state in time by this increment [s]
+                or
+            to_epoch (`Epoch`): 
+
+        Modifies:
+            TODO
+        '''
+        if timestep is not None:
+            print('hi')
+
+        elif to_epoch is not None:
+            print('hey')
+
+        return
 
 
 def propagate_formation(spacecraft: list, propagator):
