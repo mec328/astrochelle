@@ -4,6 +4,8 @@
 # DESCRIPTION: absolute state structure and propagation classes
 # AUTHOR: Michelle Chernick
 # CREATED: 2022-07-25
+# TODO:
+#   Add propagation method to config, rather than just defaulting to rk45
 # ------------------------------------------------------------------------------
 
 # Python imports

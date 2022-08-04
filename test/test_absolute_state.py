@@ -54,6 +54,7 @@ def test_step():
     # TODO check that it steps by the default timestep in config
 
     # TODO
+    pass
 
 
 def test_step_to_timestep():
