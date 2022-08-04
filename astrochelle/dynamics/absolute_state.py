@@ -81,7 +81,8 @@ class GVEPropagator():
         '''
         # If no timestep is provided, just step by default
 
-        # If timestep is provided, step by that amount
+        # If timestep is provided, step by that amount (note this can cause
+        # issues if timestep is too large!!)
 
         return
 
@@ -104,7 +105,8 @@ class GVEPropagator():
                 timestep (aka identical to step function)
         '''
         if timestep is not None:
-            # Step forward by a timestep
+            # Step forward by provided timestep by increments of the
+            # default time step
 
             # Check that the timestep is not negative
             if timestep < 0:
@@ -114,7 +116,8 @@ class GVEPropagator():
             return
 
         elif to_epoch is not None:
-            # Step forward to a given Epoch
+            # Step forward to a given Epoch by increments of the
+            # default time step
 
             # Check that the epoch is not in the past
             if to_epoch - self.epoch < 0:
