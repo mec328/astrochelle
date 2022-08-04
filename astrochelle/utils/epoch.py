@@ -230,6 +230,30 @@ class Epoch():
         # Initialize new Epoch
         return Epoch(mean_julian_day=new_mjd, day_fraction=new_day_fraction)
 
+    def __isub__(self, to_subtract):
+        '''Overloaded subtraction (in place) operator, including rollover 
+        considerations
+
+        Args:
+            to_subtract (`Epoch` or `float`): epoch or float you want to 
+            subtract from the current epoch
+                if `float`, [s]
+
+        Modifies:
+            self.mean_julian_day
+            self.day_fraction
+        '''
+        original_epoch = Epoch(
+            mean_julian_day=self.mean_julian_day,
+            day_fraction=self.day_fraction
+        )
+        new_epoch = original_epoch - to_subtract
+
+        # Modify in place TODO is this the smart way to do this?
+        self.mean_julian_day = new_epoch.mean_julian_day
+        self.day_fraction = new_epoch.day_fraction
+        return self
+
 ########################
 # Supporting Functions #
 ########################

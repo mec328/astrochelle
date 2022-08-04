@@ -208,6 +208,66 @@ def test_subtract():
     assert epoch_6.day_fraction == epoch_1.day_fraction - 49.1/SECONDS_IN_DAY
 
 
+def test_in_place_subtract():
+    # Should reproduce the results of above
+    # Mismatched time systems
+    # TODO when i have other time systems
+
+    # With rollover
+    epoch_1 = Epoch(
+        year=2022,
+        month=7,
+        day=27,
+        hours=12,
+        minutes=5,
+        seconds=5)
+    epoch_2 = Epoch(
+        year=2022,
+        month=7,
+        day=27,
+        hours=12,
+        minutes=25
+    )
+    original_mjd = epoch_1.mean_julian_day
+    original_day_frac = epoch_1.day_fraction
+    original_epoch_1 = deepcopy(epoch_1)
+
+    # LOL why would you even do this i just realized this is dumb
+    epoch_1 -= epoch_2
+    assert epoch_1.mean_julian_day == original_mjd - \
+        epoch_2.mean_julian_day - 1
+    assert epoch_1.day_fraction == original_day_frac - \
+        epoch_2.day_fraction + 1
+
+    # Without rollover
+    epoch_3 = Epoch(
+        year=2022,
+        month=7,
+        day=27,
+        hours=1,
+        minutes=5
+    )
+    epoch_1 = deepcopy(original_epoch_1)
+    epoch_1 -= epoch_3
+    assert epoch_1.mean_julian_day == original_mjd - \
+        epoch_3.mean_julian_day
+    assert epoch_1.day_fraction == original_day_frac - epoch_3.day_fraction
+
+    # Input is an int, with rollover
+    epoch_1 = deepcopy(original_epoch_1)
+    epoch_1 -= (13*3600)
+
+    assert epoch_1.mean_julian_day == original_mjd - 1
+    expected = original_day_frac + 1 - (13*3600)/SECONDS_IN_DAY
+    assert abs(epoch_1.day_fraction - expected) < 1e-8
+
+    # Input is a float, without rollover
+    epoch_1 = deepcopy(original_epoch_1)
+    epoch_1 -= 49.1
+    assert epoch_1.mean_julian_day == original_mjd
+    assert epoch_1.day_fraction == original_day_frac - 49.1/SECONDS_IN_DAY
+
+
 def test_check_validity_date():
     # Defaults
     year = 2022
