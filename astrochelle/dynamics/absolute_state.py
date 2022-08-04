@@ -100,13 +100,13 @@ class GVEPropagator():
         new_position = integrate.rk45(
             fun=new_velocity,
             t0=self.propagator_time,
-            y0=self.state[1:3],
+            y0=self.state[:3],
             t_bound=self.propagator_time+timestep
         )
 
         # Modify state
         self.state[3:] = new_velocity
-        self.state[1:3] = new_position
+        self.state[:3] = new_position
 
         # Increment time
         self.epoch += timestep
