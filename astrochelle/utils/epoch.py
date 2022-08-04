@@ -167,6 +167,29 @@ class Epoch():
         # Initialize new Epoch
         return Epoch(mean_julian_day=new_mjd, day_fraction=new_day_fraction)
 
+    def __iadd__(self, to_add):
+        '''Overloaded addition (in place) operator, including rollover considerations
+
+        Args:
+            to_add (`Epoch` or `float`): epoch or float you want to add
+            to the current epoch
+                if `float`, [s]
+
+        Modifies:
+            self.mean_julian_day
+            self.day_fraction
+        '''
+        original_epoch = Epoch(
+            mean_julian_day=self.mean_julian_day,
+            day_fraction=self.day_fraction
+        )
+        new_epoch = original_epoch + to_add
+
+        # Modify in place TODO is this the smart way to do this?
+        self.mean_julian_day = new_epoch.mean_julian_day
+        self.day_fraction = new_epoch.day_fraction
+        return self
+
     def __sub__(self, to_subtract):
         '''Overloaded subtraction operator, including rollover considerations
         (epoch+epoch)
