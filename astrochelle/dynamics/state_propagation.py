@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # ------------------------------------------------------------------------------
-# absolute_state
-# DESCRIPTION: absolute state structure and propagation classes
+# state_propagation
+# DESCRIPTION: absolute state propagation classes
 # AUTHOR: Michelle Chernick
 # CREATED: 2022-07-25
 # TODO:
@@ -22,7 +22,7 @@ from astrochelle.utils.data_models.dm_propagator import GVEPropagatorConfig
 ##################
 
 
-class AbsoluteStateException(Exception):
+class StatePropagationException(Exception):
     '''Exceptions related to absolute state
     '''
 
@@ -169,6 +169,8 @@ class GVEPropagator():
         # Apply to acceleration to convert from RTN to OE
 
         # Add Keplerian motion
+        mean_motion = calculate_mean_motion(semimajor_axis=self.state[0])
+        state_derivative += np.array([0, 0, 0, 0, 0, mean_motion])
 
         # Boom
 

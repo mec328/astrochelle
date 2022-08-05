@@ -1,4 +1,4 @@
-# test_absolute_state
+# test_state_propagation
 #
 # References:
 # ------------------------------------------------------------------------------
@@ -8,7 +8,7 @@ import pytest
 from math import pi
 
 # Astrochelle imports
-from astrochelle.dynamics.absolute_state import *
+from astrochelle.dynamics.state_propagation import *
 
 
 def propagator_example() -> GVEPropagator:
@@ -66,6 +66,21 @@ def test_calculate_acceleration():
     propagator.propagator_config.flag_relativity = False
 
     assert np.all([val == 0 for val in propagator.calculate_acceleration()])
+
+    # TODO
+    pass
+
+
+def test_state_derivative():
+    # If no perturbations are included, state derivative should just include
+    # the mean motion
+    propagator = propagator_example()
+    propagator.propagator_config.gravity_degree = 0
+    propagator.propagator_config.gravity_order = 0
+    propagator.propagator_config.flag_atmospheric_drag = False
+    propagator.propagator_config.flag_solar_radiation_pressure = False
+    propagator.propagator_config.model_third_body = []
+    propagator.propagator_config.flag_relativity = False
 
     # TODO
     pass
