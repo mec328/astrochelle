@@ -42,3 +42,5 @@ def wrap_0_to_2pi(angle: float) -> float:
         angle += 2*pi
     while angle > 2*pi:
         angle -= 2*pi
+
+    return angle

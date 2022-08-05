@@ -67,16 +67,15 @@ def convert_anomaly_mean_to_eccentric(
         Ref. 1 page 211
     '''
 
-    # Wrap provided mean anomaly to lie between 0 and 2pi
-    mean_anomaly_aug = wrap_0_to_2pi(mean_anomaly)
-
-    # TODO explain
-    eccentric_anomaly = pi if eccentricity >= 0.8 else mean_anomaly_aug
+    if mean_anomaly > -pi and mean_anomaly < 0 or mean_anomaly > pi:
+        eccentric_anomaly = mean_anomaly - eccentricity
+    else:
+        eccentric_anomaly = mean_anomaly + eccentricity
 
     # Initialize error value using the expression in Algorithm 25 in Ref. 1
     # (page 232)
     eccentric_anomaly_iter = eccentric_anomaly + \
-        (mean_anomaly_aug - convert_anomaly_eccentric_to_mean(
+        (mean_anomaly - convert_anomaly_eccentric_to_mean(
             eccentric_anomaly,
             eccentricity))/(1-eccentricity*cos(eccentric_anomaly))
 
@@ -88,7 +87,7 @@ def convert_anomaly_mean_to_eccentric(
 
         # Re-calculate eccentric anomaly using same Algorithm
         eccentric_anomaly_iter = eccentric_anomaly + \
-            (mean_anomaly_aug - convert_anomaly_eccentric_to_mean(
+            (mean_anomaly - convert_anomaly_eccentric_to_mean(
                 eccentric_anomaly,
                 eccentricity))/(1-eccentricity*cos(eccentric_anomaly))
 
