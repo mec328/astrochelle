@@ -5,9 +5,10 @@
 
 # Python imports
 import pytest
-from math import pi
+from math import pi, sqrt
 
 # Astrochelle imports
+from astrochelle.utils.constants import GM_EARTH
 from astrochelle.dynamics.state_propagation import *
 
 
@@ -81,6 +82,17 @@ def test_state_derivative():
     propagator.propagator_config.flag_solar_radiation_pressure = False
     propagator.propagator_config.model_third_body = []
     propagator.propagator_config.flag_relativity = False
+
+    state_derivative = propagator.state_derivative(
+        timestep=propagator.propagator_config.timestep,
+        state=propagator.state)
+
+    # First 5 entries should be zeros
+    assert np.all(val == 0 for val in state_derivative[:5])
+
+    # Last entry should be mean motion
+    mean_motion = sqrt(GM_EARTH/propagator.state[0]**3)
+    assert state_derivative[5] == mean_motion
 
     # TODO
     pass

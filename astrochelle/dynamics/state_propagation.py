@@ -14,6 +14,7 @@ from copy import deepcopy
 from scipy import integrate
 
 # Astrochelle imports
+from astrochelle.utils.absolute_state import calculate_mean_motion
 from astrochelle.utils.epoch import Epoch
 from astrochelle.utils.data_models.dm_propagator import GVEPropagatorConfig
 
@@ -160,19 +161,18 @@ class GVEPropagator():
             TODO
         '''
         # Calculate RTN acceleration
-        state_derivative = self.calculate_acceleration()
+        acceleration = self.calculate_acceleration()
 
         # See lines 66-202 in old gve code
 
         # Compute GVE matrix
 
         # Apply to acceleration to convert from RTN to OE
+        state_derivative = np.zeros(6)
 
         # Add Keplerian motion
         mean_motion = calculate_mean_motion(semimajor_axis=self.state[0])
         state_derivative += np.array([0, 0, 0, 0, 0, mean_motion])
-
-        # Boom
 
         return state_derivative
 

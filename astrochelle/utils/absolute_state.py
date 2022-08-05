@@ -8,16 +8,17 @@
 # ------------------------------------------------------------------------------
 
 # Python imports
+from math import sqrt
 
 # Astrochelle imports
-from astrochelle.utils.constants import SECONDS_IN_DAY, YEAR_MIN, DAYS_IN_MONTH, MJD_OFFSET
+from astrochelle.utils.constants import GM_EARTH
 
 ##################
 # Error Handling #
 ##################
 
 
-class AbsoluteState(Exception):
+class AbsoluteStateException(Exception):
     '''Exceptions related to epoch
     '''
 
@@ -27,3 +28,15 @@ class AbsoluteState(Exception):
     ):
 
         super().__init__(msg)
+
+
+def calculate_mean_motion(semimajor_axis: float) -> float:
+    '''Calculate the mean motion of a Keplerian orbit
+
+    Args:
+        semimajor_axis (`float`): semi-major axis of the orbit [m]
+
+    Returns:
+        mean motion (`float`)
+    '''
+    return sqrt(GM_EARTH / semimajor_axis**3)
