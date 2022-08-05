@@ -126,7 +126,7 @@ class GVEPropagator():
 
             # Check that the timestep is not negative
             if timestep < 0:
-                raise AbsoluteStateException(
+                raise StatePropagationException(
                     'Cannot propagate backwards. Quitting.')
 
             return
@@ -137,7 +137,7 @@ class GVEPropagator():
 
             # Check that the epoch is not in the past
             if to_epoch - self.epoch < 0:
-                raise AbsoluteStateException(
+                raise StatePropagationException(
                     'Cannot propagate backwards. Quitting.')
             return
 
