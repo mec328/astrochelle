@@ -36,4 +36,5 @@ DAYS_IN_MONTH = {
 MJD_OFFSET = 2400000.5
 
 # GGM05S [m^3/s^2] #
+# TODO need source here
 GM_EARTH = 3.986004415e14
