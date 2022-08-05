@@ -5,10 +5,13 @@
 # AUTHOR: Michelle Chernick
 # CREATED: 2022-08-04
 # REFERENCES:
+#   [1] Vallado, David A. Fundamentals of astrodynamics and applications.
+#       First edition.
 # ------------------------------------------------------------------------------
 
 # Python imports
 from math import sqrt
+import numpy as np
 
 # Astrochelle imports
 from astrochelle.utils.constants import GM_EARTH
@@ -51,5 +54,12 @@ def construct_gve_matrix() -> np.ndarray:
 
     Returns:
         GVE matrix (6x3)
+
+    Source:
+        Ref. 1 page 567 (Eq. 8-24)
     '''
-    return
+    gve_matrix = np.zeros((6, 3))
+
+    # TODO fill in here
+
+    return gve_matrix
