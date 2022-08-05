@@ -19,7 +19,7 @@ def test_convert_anomaly_mean_to_eccentric():
 
     assert abs(convert_anomaly_mean_to_eccentric(
         mean_anomaly=mean_anomaly,
-        eccentricity=eccentricity) - 3.8486971) < 1e-4
+        eccentricity=eccentricity) - 3.8486617) < 1e-7
 
 
 def test_convert_anomaly_eccentric_to_true():
