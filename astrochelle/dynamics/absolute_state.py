@@ -78,7 +78,7 @@ class GVEPropagator():
         Args:
             timestep (`float`): propagate state in time by this increment [s] 
                 (optional, will use default if None)
-            acceleration (`np.array`): acceleration 
+            acceleration (`np.array`): acceleration in RTN
                 (optional, will calculate it internally if None)
 
         Modifies:
@@ -95,24 +95,19 @@ class GVEPropagator():
         if acceleration is None:
             acceleration = self.calculate_acceleration()
 
-        # Integrate twice
-        new_velocity = integrate.rk45(
-            fun=acceleration,
+        # Convert acceleration into effect on orbital elements
+        # G @ pa rtn plus some other stuff gives us the deriv of state
+        # so integrate once, the entire 6D thang
+        # TODO function-ify this and have it return state deriv
+        state_deriv = G @ acceleration + whatever
+
+        # Integrate
+        self.state = integrate.rk45(
+            fun=state_deriv,
             t0=self.propagator_time,
-            y0=self.state[3:],
+            y0=self.state,
             t_bound=self.propagator_time+timestep
         )
-
-        new_position = integrate.rk45(
-            fun=new_velocity,
-            t0=self.propagator_time,
-            y0=self.state[:3],
-            t_bound=self.propagator_time+timestep
-        )
-
-        # Modify state
-        self.state[3:] = new_velocity
-        self.state[:3] = new_position
 
         # Increment time
         self.epoch += timestep

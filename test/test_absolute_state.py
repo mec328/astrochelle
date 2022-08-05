@@ -5,12 +5,13 @@
 
 # Python imports
 import pytest
+from math import pi
 
 # Astrochelle imports
 from astrochelle.dynamics.absolute_state import *
 
 
-def propagator_example()->GVEPropagator:
+def propagator_example() -> GVEPropagator:
     # Example propagator for use in tests
     # Default configuration paramteres
     timestep = 10  # 10 seconds
@@ -30,6 +31,9 @@ def propagator_example()->GVEPropagator:
         hours=17,
         minutes=19)
 
+    # Here's an arbitrary near-circular orbit lol
+    initial_state = np.array([6878e3, 1e-4, pi/3, pi/4, pi/5, 0])
+
     propagator_config = GVEPropagatorConfig(
         timestep=timestep,
         gravity_degree=gravity_degree,
@@ -44,7 +48,8 @@ def propagator_example()->GVEPropagator:
 
     propagator = GVEPropagator(
         propagator_config=propagator_config,
-        initial_epoch=initial_epoch
+        initial_epoch=initial_epoch,
+        initial_state=initial_state
     )
 
     return propagator
@@ -57,6 +62,8 @@ def test_calculate_acceleration():
 
 def test_step():
     # Provide timestep and acceleration
+    propagator = propagator_example()
+    propagator.step(timestep=5, acceleration=np.array([.5, .6, .7]))
 
     # Provide timestep, no acceleration (so it calculates it internally) TODO
 
