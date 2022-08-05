@@ -77,7 +77,7 @@ class GVEPropagator():
         '''Step forward in time
 
         Args:
-            timestep (`float`): propagate state in time by this increment [s] 
+            timestep (`float`): propagate state in time by this increment [s]
                 (optional, will use default if None)
 
         Modifies:
@@ -151,8 +151,8 @@ class GVEPropagator():
         '''State derivative for KOE state for use in integration
 
         Args:
-            timestep (`float`): TODO
-            state (`np.array`): TODO
+            timestep (`float`): timestep to step by [s]
+            state (`np.array`): current state (KOE)
 
         Modifies:
             TODO

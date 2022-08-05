@@ -98,12 +98,17 @@ def test_state_derivative():
     pass
 
 
-def test_step():
-    # TODO
+def test_step_general():
+    # Testing the functionality that happens no matter the propagator config
 
     # Provide timestep
 
     # No timestep
+    pass
+
+
+def test_step_keplerian():
+    # TODO need to use GMAT or something
     pass
 
 
