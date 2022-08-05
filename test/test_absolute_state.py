@@ -56,22 +56,27 @@ def propagator_example() -> GVEPropagator:
 
 
 def test_calculate_acceleration():
+    # If no perturbations are included, acceleration should be zero
+    propagator = propagator_example()
+    propagator.propagator_config.gravity_degree = 0
+    propagator.propagator_config.gravity_order = 0
+    propagator.propagator_config.flag_atmospheric_drag = False
+    propagator.propagator_config.flag_solar_radiation_pressure = False
+    propagator.propagator_config.model_third_body = []
+    propagator.propagator_config.flag_relativity = False
+
+    assert np.all([val == 0 for val in propagator.calculate_acceleration()])
+
     # TODO
     pass
 
 
 def test_step():
-    # Provide timestep and acceleration
-    propagator = propagator_example()
-    propagator.step(timestep=5, acceleration=np.array([.5, .6, .7]))
+    # TODO
 
-    # Provide timestep, no acceleration (so it calculates it internally) TODO
+    # Provide timestep
 
-    # No timestep, provide acceleration
-    #   (should use default timestep)
-
-    # No timestep, no acceleration
-    # (so it uses default timestep and calculates acceleration internally) TODO
+    # No timestep
     pass
 
 

@@ -72,14 +72,12 @@ class GVEPropagator():
         # TODO probs just its config data model and then propagation methods
         # themselves, aka step(), accelerations, etc
 
-    def step(self, timestep: float = None, acceleration: np.array = None):
+    def step(self, timestep: float = None):
         '''Step forward in time
 
         Args:
             timestep (`float`): propagate state in time by this increment [s] 
                 (optional, will use default if None)
-            acceleration (`np.array`): acceleration in RTN
-                (optional, will calculate it internally if None)
 
         Modifies:
             epoch
@@ -91,19 +89,9 @@ class GVEPropagator():
         if timestep is None:
             timestep = self.timestep
 
-        # If no acceleration is provided, calculate it internally
-        if acceleration is None:
-            acceleration = self.calculate_acceleration()
-
-        # Convert acceleration into effect on orbital elements
-        # G @ pa rtn plus some other stuff gives us the deriv of state
-        # so integrate once, the entire 6D thang
-        # TODO function-ify this and have it return state deriv
-        state_deriv = G @ acceleration + whatever
-
         # Integrate
         self.state = integrate.rk45(
-            fun=state_deriv,
+            fun=self.state_derivative,
             t0=self.propagator_time,
             y0=self.state,
             t_bound=self.propagator_time+timestep
@@ -158,8 +146,37 @@ class GVEPropagator():
             self.step()
             return
 
+    def state_derivative(self, timestep: float, state: np.array) -> np.array:
+        '''State derivative for KOE state for use in integration
+
+        Args:
+            timestep (`float`): TODO
+            state (`np.array`): TODO
+
+        Modifies:
+            TODO
+
+        Returns:
+            TODO
+        '''
+        # Calculate RTN acceleration
+        state_derivative = self.calculate_acceleration()
+
+        # See lines 66-202 in old gve code
+
+        # Compute GVE matrix
+
+        # Apply to acceleration to convert from RTN to OE
+
+        # Add Keplerian motion
+
+        # Boom
+
+        return state_derivative
+
     def calculate_acceleration(self) -> np.array:
-        '''Calculate acceleration at current time for use in integration
+        '''Calculate acceleration at current time in RTN 
+        for use in integration
 
         Args:
             TODO
