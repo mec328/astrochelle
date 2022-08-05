@@ -40,3 +40,16 @@ def calculate_mean_motion(semimajor_axis: float) -> float:
         mean motion (`float`)
     '''
     return sqrt(GM_EARTH / semimajor_axis**3)
+
+
+def construct_gve_matrix() -> np.ndarray:
+    '''Construct GVE matrix which represents the transition between
+    accelerations in RTN to variations in the OE
+
+    Args:
+        TODO
+
+    Returns:
+        GVE matrix (6x3)
+    '''
+    return
