@@ -161,30 +161,36 @@ def convert_anomaly_eccentric_to_mean(
 
 def convert_anomaly_mean_to_true(
         mean_anomaly: float, eccentricity: float) -> float:
-    '''TODO
+    '''Convert the mean anomaly to true anomaly
 
     Args:
         mean_anomaly (`float`): semi-major axis of the orbit [m]
         eccentricity (`float`): eccentricity of the orbit
 
     Returns:
-        TODO
+        true anomaly (`float`)
     '''
-    return
+    return convert_anomaly_eccentric_to_true(
+        eccentric_anomaly=convert_anomaly_mean_to_eccentric(
+            mean_anomaly=mean_anomaly, eccentricity=eccentricity),
+        eccentricity=eccentricity)
 
 
 def convert_anomaly_true_to_mean(
         true_anomaly: float, eccentricity: float) -> float:
-    '''TODO
+    '''Convert the true anomaly to mean anomaly
 
     Args:
         true_anomaly (`float`): semi-major axis of the orbit [m]
         eccentricity (`float`): eccentricity of the orbit
 
     Returns:
-        TODO
+        mean anomaly (`float`)
     '''
-    return
+    return convert_anomaly_eccentric_to_mean(
+        eccentric_anomaly=convert_anomaly_true_to_eccentric(
+            true_anomaly=true_anomaly, eccentricity=eccentricity),
+        eccentricity=eccentricity)
 
 
 def construct_gve_matrix(koe: np.array) -> np.ndarray:
