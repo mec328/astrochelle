@@ -27,10 +27,32 @@ def test_convert_anomaly_mean_to_eccentric():
         mean_anomaly=mean_anomaly,
         eccentricity=eccentricity) - mean_anomaly) < 1e-7
 
+    # Eccentric to mean applied to mean to eccentric should
+    # return the original value
+    mean_anomaly = 2.345
+    eccentricity = 0.35
+    assert abs(convert_anomaly_eccentric_to_mean(
+        eccentric_anomaly=convert_anomaly_mean_to_eccentric(
+            mean_anomaly=mean_anomaly,
+            eccentricity=eccentricity),
+        eccentricity=eccentricity
+    ) - mean_anomaly) < 1e-7
+
 
 def test_convert_anomaly_eccentric_to_true():
     # TODO
     pass
+
+    # True to eccentric applied to eccentric to true should
+    # return the original value
+    eccentric_anomaly = 2.345
+    eccentricity = 0.35
+    assert abs(convert_anomaly_true_to_eccentric(
+        true_anomaly=convert_anomaly_eccentric_to_true(
+            eccentric_anomaly=eccentric_anomaly,
+            eccentricity=eccentricity),
+        eccentricity=eccentricity
+    ) - eccentric_anomaly) < 1e-7
 
     # Circular orbit, eccentric and true should match
     eccentric_anomaly = 1.123
@@ -43,6 +65,17 @@ def test_convert_anomaly_eccentric_to_true():
 def test_convert_anomaly_true_to_eccentric():
     # TODO
     pass
+
+    # Eccentric to true applied to true to eccentric should
+    # return the original value
+    true_anomaly = 2.345
+    eccentricity = 0.35
+    assert abs(convert_anomaly_eccentric_to_true(
+        eccentric_anomaly=convert_anomaly_true_to_eccentric(
+            true_anomaly=true_anomaly,
+            eccentricity=eccentricity),
+        eccentricity=eccentricity
+    ) - true_anomaly) < 1e-7
 
     # Circular orbit, eccentric and true should match
     true_anomaly = 1.567
@@ -68,15 +101,48 @@ def test_convert_anomaly_eccentric_to_mean():
         eccentric_anomaly=eccentric_anomaly,
         eccentricity=eccentricity) - eccentric_anomaly) < 1e-7
 
+    # Mean to eccentric applied to eccentric to mean should
+    # return the original value
+    eccentric_anomaly = 2.345
+    eccentricity = 0.35
+    assert abs(convert_anomaly_mean_to_eccentric(
+        mean_anomaly=convert_anomaly_eccentric_to_mean(
+            eccentric_anomaly=eccentric_anomaly,
+            eccentricity=eccentricity),
+        eccentricity=eccentricity
+    ) - eccentric_anomaly) < 1e-7
+
 
 def test_convert_anomaly_mean_to_true():
     # TODO
     pass
 
+    # True to mean applied to mean to true should
+    # return the original value
+    mean_anomaly = .65
+    eccentricity = 0.65
+    assert abs(convert_anomaly_true_to_mean(
+        true_anomaly=convert_anomaly_mean_to_true(
+            mean_anomaly=mean_anomaly,
+            eccentricity=eccentricity),
+        eccentricity=eccentricity
+    ) - mean_anomaly) < 1e-7
+
 
 def test_convert_anomaly_true_to_mean():
     # TODO
     pass
+
+    # Mean to true applied to true to mean should
+    # return the original value
+    true_anomaly = .65
+    eccentricity = 0.65
+    assert abs(convert_anomaly_mean_to_true(
+        mean_anomaly=convert_anomaly_true_to_mean(
+            true_anomaly=true_anomaly,
+            eccentricity=eccentricity),
+        eccentricity=eccentricity
+    ) - true_anomaly) < 1e-7
 
 
 def test_construct_gve_matrix():
