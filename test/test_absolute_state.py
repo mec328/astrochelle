@@ -61,7 +61,12 @@ def test_convert_anomaly_eccentric_to_mean():
         eccentric_anomaly=eccentric_anomaly,
         eccentricity=eccentricity) - 235.4 * pi / 180) < 1e-7
 
-    # TODO more
+    # Circular orbit, eccentric and mean should match
+    eccentric_anomaly = 1.987
+    eccentricity = 1e-7
+    assert abs(convert_anomaly_eccentric_to_mean(
+        eccentric_anomaly=eccentric_anomaly,
+        eccentricity=eccentricity) - eccentric_anomaly) < 1e-7
 
 
 def test_convert_anomaly_mean_to_true():
