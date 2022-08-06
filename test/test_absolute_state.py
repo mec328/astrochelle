@@ -143,8 +143,3 @@ def test_convert_anomaly_true_to_mean():
             eccentricity=eccentricity),
         eccentricity=eccentricity
     ) - true_anomaly) < 1e-7
-
-
-def test_construct_gve_matrix():
-    # TODO
-    pass
