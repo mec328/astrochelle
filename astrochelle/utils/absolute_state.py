@@ -15,7 +15,6 @@ import numpy as np
 
 # Astrochelle imports
 from astrochelle.utils.constants import GM_EARTH
-from astrochelle.utils.math import wrap_0_to_2pi
 
 ##################
 # Error Handling #
