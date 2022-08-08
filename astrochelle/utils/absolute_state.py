@@ -191,9 +191,6 @@ def convert_anomaly_true_to_mean(
         eccentricity=eccentricity)
 
 
-<< << << < HEAD
-
-
 def construct_gve_matrix(koe: np.array) -> np.ndarray:
     '''Construct GVE matrix which represents the transition between
     accelerations in RTN to variations in the OE
@@ -226,7 +223,3 @@ def construct_gve_matrix(koe: np.array) -> np.ndarray:
     # TODO
 
     return gve_matrix
-
-
-== == == =
->>>>>> > origin/main
