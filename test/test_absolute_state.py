@@ -134,5 +134,10 @@ def test_convert_anomaly_true_to_mean():
 
 
 def test_construct_gve_matrix():
-    # TODO
+    # TODO eccentricity >= 1, ensure exception raised
+
+    # TODO eccentricity <= 0, ensure exception raised
+
+    # TODO regular GVE matrix construction, expected results
+    # zeros in the right spots
     pass
