@@ -189,3 +189,37 @@ def convert_anomaly_true_to_mean(
         eccentric_anomaly=convert_anomaly_true_to_eccentric(
             true_anomaly=true_anomaly, eccentricity=eccentricity),
         eccentricity=eccentricity)
+
+
+def construct_gve_matrix(koe: np.array) -> np.ndarray:
+    '''Construct GVE matrix which represents the transition between
+    accelerations in RTN to variations in the OE
+
+    Args:
+        koe(`np.array`): Keplerian orbit elements[m, rad]
+
+    Returns:
+        GVE matrix(6x3)
+
+    Source:
+        Ref. 1 page 567 (Eq. 8-24)
+    '''
+    gve_matrix = np.zeros((6, 3))
+
+    # Extract OE
+    a = koe[0]
+    e = koe[1]
+    i = koe[2]
+    W = koe[3]
+    w = koe[4]
+    M = koe[5]
+
+    # Compute mean motion
+    mean_motion = calculate_mean_motion(semimajor_axis=a)
+
+    # Convert mean anomaly to true
+    nu = convert_anomaly_mean_to_true(semimajor_axis=a, eccentricity=e)
+
+    # TODO
+
+    return gve_matrix
