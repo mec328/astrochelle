@@ -40,9 +40,6 @@ def test_convert_anomaly_mean_to_eccentric():
 
 
 def test_convert_anomaly_eccentric_to_true():
-    # TODO
-    pass
-
     # True to eccentric applied to eccentric to true should
     # return the original value
     eccentric_anomaly = 2.345
@@ -63,9 +60,6 @@ def test_convert_anomaly_eccentric_to_true():
 
 
 def test_convert_anomaly_true_to_eccentric():
-    # TODO
-    pass
-
     # Eccentric to true applied to true to eccentric should
     # return the original value
     true_anomaly = 2.345
@@ -114,9 +108,6 @@ def test_convert_anomaly_eccentric_to_mean():
 
 
 def test_convert_anomaly_mean_to_true():
-    # TODO
-    pass
-
     # True to mean applied to mean to true should
     # return the original value
     mean_anomaly = .65
@@ -130,9 +121,6 @@ def test_convert_anomaly_mean_to_true():
 
 
 def test_convert_anomaly_true_to_mean():
-    # TODO
-    pass
-
     # Mean to true applied to true to mean should
     # return the original value
     true_anomaly = .65
