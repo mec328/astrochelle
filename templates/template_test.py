@@ -6,6 +6,7 @@
 # ------------------------------------------------------------------------------
 
 # Python imports
+import pytest
 
 # Astrochelle imports
 # import the module you're testing
