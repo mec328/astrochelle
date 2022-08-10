@@ -134,7 +134,7 @@ def test_convert_anomaly_true_to_mean():
 
 
 def test_construct_gve_matrix():
-    koe = np.array([6378e3, 1, .5, .4, .3, .2])
+    koe = np.array([6878e3, 1, .5, .4, .3, .2])
 
     # Eccentricity >= 1, ensure exception raised
     with pytest.raises(Exception):
@@ -149,7 +149,14 @@ def test_construct_gve_matrix():
             koe=koe
         )
 
-    # TODO regular GVE matrix construction, expected results
-    # zeros in the right spots for NC
-    # zeros in the right spots for ecc
+    # Nominal GVE matrix construction, expected results
+    # TODO can i come up with a test case to check the nonzero entries?
+
+    # TODO zeros in the right spots for NC
+    koe_nc = np.array([6900e3, 1e-3, .5, .4, .3, .2])
+    gve_matrix_nc = construct_gve_matrix(koe=koe_nc)
+
+    print(gve_matrix_nc)
+
+    # TODO zeros in the right spots for ecc
     pass

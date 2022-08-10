@@ -207,46 +207,46 @@ def construct_gve_matrix(koe: np.array) -> np.ndarray:
     gve_matrix = np.zeros((6, 3))
 
     # Extract OE
-    a = koe[0]
-    e = koe[1]
-    i = koe[2]
-    w = koe[4]
+    sma = koe[0]
+    ecc = koe[1]
+    inc = koe[2]
+    argp = koe[4]
 
     # Check eccentricity to ensure no divide by zero errors
-    if e <= 0 or e >= 1:
+    if ecc <= 0 or ecc >= 1:
         raise AbsoluteStateException(
-            f'Cannot construct GVE matrix with ecc <= 0 or >=1. Ecc = {e}')
+            f'Cannot construct GVE matrix with ecc <= 0 or >=1. Ecc = {ecc}')
 
     # Compute mean motion
-    mean_motion = calculate_mean_motion(semimajor_axis=a)
+    mean_motion = calculate_mean_motion(semimajor_axis=sma)
 
     # Convert mean anomaly to true
-    nu = convert_anomaly_mean_to_true(mean_anomaly=koe[5], eccentricity=e)
+    nu = convert_anomaly_mean_to_true(mean_anomaly=koe[5], eccentricity=ecc)
 
     # Compute relevant constants TODO write down what each of these are
-    eta = sqrt(1-e**2)
-    p = a*eta**2  # Semi-latus rectum
+    eta = sqrt(1-ecc**2)
+    p = sma*eta**2  # Semi-latus rectum
     h = sqrt(p * GM_EARTH)
-    r = p/(1+e*cos(nu))
+    r = p/(1+ecc*cos(nu))
 
     # Fill in the matrix
-    gve_matrix[0, 0] = 2/h * a**2 * e*sin(nu)
-    gve_matrix[0, 1] = 2/(h*r) * a**2 * p
+    gve_matrix[0, 0] = 2/h * sma**2 * ecc*sin(nu)
+    gve_matrix[0, 1] = 2/(h*r) * sma**2 * p
 
     gve_matrix[1, 0] = p/h * sin(nu)
-    gve_matrix[1, 1] = 1/h * (((p+r)*cos(nu))+(r*e))
+    gve_matrix[1, 1] = 1/h * (((p+r)*cos(nu))+(r*ecc))
 
-    gve_matrix[2, 2] = r*cos(nu+w)/h
+    gve_matrix[2, 2] = r*cos(nu+argp)/h
 
-    gve_matrix[3, 2] = r/(h*sin(i)) * sin(nu+w)
+    gve_matrix[3, 2] = r/(h*sin(inc)) * sin(nu+argp)
 
-    gve_matrix[4, 0] = -p/(h*e) * cos(nu)
-    gve_matrix[4, 1] = (p+r)*sin(nu)/(h*e)
-    gve_matrix[4, 2] = -r*sin(nu+w)*cos(i)/(h*sin(i))
+    gve_matrix[4, 0] = -p/(h*ecc) * cos(nu)
+    gve_matrix[4, 1] = (p+r)*sin(nu)/(h*ecc)
+    gve_matrix[4, 2] = -r*sin(nu+argp)*cos(inc)/(h*sin(inc))
 
-    gve_matrix[5, 0] = ((-2*e)+cos(nu)+(e*cos(nu)*cos(nu))) * \
-        eta**2/(e*(1+(e*cos(nu)))*mean_motion*a)
-    gve_matrix[5, 1] = ((e**2 - 1)*((e*cos(nu))+2)*sin(nu)) / \
-        (e*(1+(e*cos(nu)))*mean_motion*a)
+    gve_matrix[5, 0] = ((-2*ecc)+cos(nu)+(ecc*cos(nu)*cos(nu))) * \
+        eta**2/(ecc*(1+(ecc*cos(nu)))*mean_motion*sma)
+    gve_matrix[5, 1] = ((ecc**2 - 1)*((ecc*cos(nu))+2)*sin(nu)) / \
+        (ecc*(1+(ecc*cos(nu)))*mean_motion*sma)
 
     return gve_matrix
