@@ -134,10 +134,22 @@ def test_convert_anomaly_true_to_mean():
 
 
 def test_construct_gve_matrix():
-    # TODO eccentricity >= 1, ensure exception raised
+    koe = np.array([6378e3, 1, .5, .4, .3, .2])
 
-    # TODO eccentricity <= 0, ensure exception raised
+    # Eccentricity >= 1, ensure exception raised
+    with pytest.raises(Exception):
+        gve_matrix = construct_gve_matrix(
+            koe=koe
+        )
+
+    # Eccentricity <= 0, ensure exception raised
+    koe[1] = 0
+    with pytest.raises(Exception):
+        gve_matrix = construct_gve_matrix(
+            koe=koe
+        )
 
     # TODO regular GVE matrix construction, expected results
-    # zeros in the right spots
+    # zeros in the right spots for NC
+    # zeros in the right spots for ecc
     pass
